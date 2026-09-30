@@ -152,7 +152,7 @@ export default async function DashboardPage() {
             مرحباً بك، {user.displayName} 👋
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            نظام إدارة مستودعات زهرة الخليج للصيد — تاريخ اليوم: {today.formatArabic()}
+            نظام إدارة مستودعات زهرة المحيط لتصدير الأسماك — تاريخ اليوم: {today.formatArabic()}
           </p>
         </div>
         <div className="flex items-center gap-2">

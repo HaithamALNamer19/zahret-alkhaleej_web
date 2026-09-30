@@ -14,7 +14,7 @@ export class SystemSettings {
 
   public static default(): SystemSettings {
     return new SystemSettings({
-      companyDisplayName: "شركة زهرة الخليج للصيد",
+      companyDisplayName: "زهرة المحيط لتصدير الأسماك (Ocean Flower)",
       defaultFreeDays: 15,
       stageDays: 30,
       doublingFactor: 2,

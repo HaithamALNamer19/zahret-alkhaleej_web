@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { container } from "@/server/container";
 import { getSessionUser } from "@/server/auth/session";
 import { PrintButton } from "@/shared/components/PrintButton";
+import { OfficialLetterhead } from "@/shared/components/OfficialLetterhead";
 
 export default async function PrintPaymentVoucherPage({
   params,
@@ -32,151 +33,110 @@ export default async function PrintPaymentVoucherPage({
   const payment = await container.paymentRepository.findById(id);
   if (!payment) notFound();
 
-  const [company, settings] = await Promise.all([
-    container.companyRepository.findById(payment.getCompanyId()),
-    container.settingsRepository.getSettings(),
-  ]);
+  const company = await container.companyRepository.findById(payment.getCompanyId());
 
   const methodLabel =
     payment.getPaymentMethod() === "CASH" ? "نقداً (CASH)" : "حوالة بنكية / شيك (TRANSFER)";
 
   return (
-    <div className="bg-white min-h-screen p-8 text-black font-sans print:p-0">
+    <div className="bg-slate-100 min-h-screen p-4 sm:p-8 print:p-0 print:bg-white text-black font-sans">
       {/* Print Trigger Button (Hidden when printing) */}
-      <div className="mb-6 flex justify-end print:hidden">
-        <PrintButton label="طباعة سند القبض (A4)" />
+      <div className="max-w-[210mm] mx-auto mb-4 flex justify-between items-center print:hidden">
+        <a
+          href={`/finance`}
+          className="text-xs font-bold text-slate-600 hover:text-slate-900 bg-white px-3 py-1.5 rounded-lg border border-slate-300 shadow-sm"
+        >
+          ← العودة للمالية والحسابات
+        </a>
+        <PrintButton label="طباعة سند القبض الرسمي (A4)" />
       </div>
 
-      <div className="border border-slate-300 p-8 rounded-xl max-w-4xl mx-auto space-y-6 print:border-none print:p-0">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b-2 border-slate-800 pb-4">
-          <div className="text-right space-y-1">
-            <h1 className="text-2xl font-black tracking-tight text-slate-900">
-              {settings.getCompanyDisplayName()}
-            </h1>
-            <p className="text-xs text-slate-500 font-semibold">
-              الشؤون المالية والحسابات - مستودعات التبريد
+      {/* Official A4 Letterhead Document */}
+      <OfficialLetterhead
+        receiptNumber={payment.getPaymentNumber().getValue()}
+        dateArabic={payment.getPaymentDate().formatArabic()}
+        dateEnglish={payment.getPaymentDate().toString()}
+        documentTitle="سند قبض مالي (مستودعات التبريد)"
+        documentSubtitle="OFFICIAL PAYMENT RECEIPT VOUCHER"
+        isCancelled={payment.getStatus() === "CANCELLED"}
+        cancellationReason={payment.getCancellationReason()}
+      >
+        <div className="space-y-6">
+          {/* Main Financial Amount Display */}
+          <div className="border-2 border-[#0e3a82] bg-gradient-to-r from-blue-50/50 via-white to-blue-50/50 p-4 rounded-xl flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-slate-500 block mb-1">المبلغ المستلم رقماً:</span>
+              <div className="text-2xl font-black font-mono text-[#0e3a82]">
+                {payment.getAmount().toYer().toLocaleString("ar-YE")}{" "}
+                <span className="text-sm font-bold text-slate-700">ريال يمني (YER)</span>
+              </div>
+            </div>
+            <div className="text-left bg-white px-4 py-2 rounded-lg border border-slate-200">
+              <span className="text-[10px] text-slate-400 font-bold block uppercase">
+                Method of Payment
+              </span>
+              <strong className="text-xs text-slate-800">{methodLabel}</strong>
+            </div>
+          </div>
+
+          {/* Payment & Company Details Box */}
+          <div className="grid grid-cols-2 gap-4 text-xs bg-slate-50/90 p-4 rounded-lg border border-[#0e3a82]/20">
+            <div>
+              <span className="text-slate-500 font-semibold">استلمنا من الإخوة شركة / عميل:</span>{" "}
+              <strong className="text-slate-900 text-sm font-black block mt-0.5">
+                {company?.getName()}
+              </strong>
+            </div>
+            <div>
+              <span className="text-slate-500 font-semibold">كود العميل:</span>{" "}
+              <strong className="font-mono font-bold text-[#0e3a82] block mt-0.5">
+                {company?.getCode().getValue()}
+              </strong>
+            </div>
+            <div>
+              <span className="text-slate-500 font-semibold">طريقة التحصيل:</span>{" "}
+              <span className="font-bold text-slate-800 block mt-0.5">{methodLabel}</span>
+            </div>
+            <div>
+              <span className="text-slate-500 font-semibold">المستلم المالي:</span>{" "}
+              <span className="font-bold text-slate-800 block mt-0.5 font-mono">
+                {payment.getReceivedBy()}
+              </span>
+            </div>
+          </div>
+
+          {/* Description / For What */}
+          <div className="text-xs bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-1">
+            <span className="font-bold text-slate-700 block">وذلك مقابل:</span>
+            <p className="text-slate-800 font-medium">
+              {payment.getNotes() || "سداد رسوم تخزين وتبريد صيد في مستودعات الشركة."}
             </p>
           </div>
 
-          <div className="text-center">
-            <div className="w-14 h-14 mx-auto rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xl mb-1">
-              ZK
+          {/* Official Signatures & Seal Block */}
+          <div className="pt-10 grid grid-cols-3 gap-6 text-center text-xs">
+            <div className="space-y-12">
+              <span className="font-bold text-slate-800 block">المحاسب المالي</span>
+              <span className="block border-b border-slate-400 w-3/4 mx-auto" />
+              <span className="text-slate-500 block text-[10px]">التوقيع والاسم</span>
             </div>
-            <span className="text-[10px] text-slate-400 font-bold">ZAHRET AL KHALEEJ</span>
-          </div>
 
-          <div className="text-left space-y-1 font-mono text-xs">
-            <div>
-              <span className="text-slate-500">رقم السند:</span>{" "}
-              <strong className="text-sm font-black">{payment.getPaymentNumber().getValue()}</strong>
+            <div className="space-y-12">
+              <span className="font-bold text-slate-800 block">المدير العام / المفوض</span>
+              <span className="block border-b border-slate-400 w-3/4 mx-auto" />
+              <span className="text-slate-500 block text-[10px]">التوقيع والاعتماد</span>
             </div>
-            <div>
-              <span className="text-slate-500">تاريخ القبض:</span>{" "}
-              <strong>{payment.getPaymentDate().formatArabic()}</strong>
-            </div>
-          </div>
-        </div>
 
-        {/* Voucher Title */}
-        <div className="text-center space-y-1">
-          <h2 className="text-lg font-black bg-emerald-50 text-emerald-950 py-1.5 px-8 rounded-lg inline-block border border-emerald-300">
-            سند قبض مالي (RECEIPT VOUCHER)
-          </h2>
-          {payment.getStatus() === "CANCELLED" && (
-            <div className="text-rose-600 font-black text-sm border border-rose-300 bg-rose-50 py-1 px-4 rounded">
-              ⚠️ هذا السند ملغي (CANCELLED)
-              {payment.getCancellationReason() && ` - السبب: ${payment.getCancellationReason()}`}
-            </div>
-          )}
-        </div>
-
-        {/* Amount Box */}
-        <div className="bg-slate-50 border-2 border-slate-300 p-4 rounded-xl flex items-center justify-between">
-          <div>
-            <span className="text-xs text-slate-500 font-bold block mb-1">المبلغ المقبوض:</span>
-            <span className="text-2xl font-black font-mono text-emerald-700 tracking-tight">
-              {payment.getAmount().formatArabic()}
-            </span>
-          </div>
-          <div className="text-left font-semibold text-xs text-slate-600 space-y-1">
-            <div>
-              <span className="text-slate-400">طريقة الدفع:</span>{" "}
-              <strong className="text-slate-800">{methodLabel}</strong>
-            </div>
-            <div>
-              <span className="text-slate-400">العملة:</span>{" "}
-              <strong className="text-slate-800">ريال يمني (YER)</strong>
+            <div className="space-y-3">
+              <span className="font-bold text-slate-800 block">الختم المالي الرسمي</span>
+              <div className="w-20 h-20 mx-auto rounded-full border-2 border-dashed border-[#0e3a82]/40 flex flex-col items-center justify-center text-[10px] text-[#0e3a82]/60 font-bold">
+                <span>ختم الإدارة</span>
+                <span className="text-[8px]">SEAL</span>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Company & Payer Information */}
-        <div className="grid grid-cols-2 gap-4 text-xs bg-slate-50/80 p-4 rounded-lg border border-slate-200">
-          <div>
-            <span className="text-slate-500 font-semibold">استلمنا من الإخوة / شركة:</span>{" "}
-            <strong className="text-slate-900 text-sm font-bold block mt-0.5">
-              {company?.getName()}
-            </strong>
-          </div>
-          <div>
-            <span className="text-slate-500 font-semibold">كود الحساب:</span>{" "}
-            <strong className="font-mono text-slate-800 block mt-0.5">
-              {company?.getCode().getValue()}
-            </strong>
-          </div>
-          <div>
-            <span className="text-slate-500 font-semibold">المسؤول المفوض:</span>{" "}
-            <span className="text-slate-800 block mt-0.5">{company?.getContactPerson() || "—"}</span>
-          </div>
-          <div>
-            <span className="text-slate-500 font-semibold">رقم الهاتف:</span>{" "}
-            <span className="font-mono text-slate-800 block mt-0.5">{company?.getPhone() || "—"}</span>
-          </div>
-        </div>
-
-        {/* Statement / Description */}
-        <div className="border border-slate-200 rounded-lg p-4 text-xs space-y-2">
-          <div className="text-slate-500 font-semibold">وذلك سداداً عن:</div>
-          <p className="text-sm font-medium text-slate-800 leading-relaxed bg-slate-50 p-3 rounded border border-slate-100">
-            {payment.getNotes() || "دفعة تحت حساب رسوم التخزين والتبريد لمخزون الصيد السمكي."}
-          </p>
-        </div>
-
-        {/* Receipt Verification Meta */}
-        <div className="text-[11px] text-slate-500 grid grid-cols-2 gap-4 border-t border-slate-200 pt-3">
-          <div>
-            <span>المستلم في النظام:</span>{" "}
-            <strong className="text-slate-700">{payment.getReceivedBy()}</strong>
-          </div>
-          <div className="text-left font-mono">
-            <span>تاريخ الإصدار الرقمي:</span>{" "}
-            <span>{payment.getCreatedAt().toLocaleString("ar-YE")}</span>
-          </div>
-        </div>
-
-        {/* Signatures */}
-        <div className="pt-8 grid grid-cols-3 gap-6 text-center text-xs">
-          <div className="space-y-12">
-            <span className="font-bold text-slate-700 block">المسلّم / المودع</span>
-            <span className="block border-b border-slate-400 w-3/4 mx-auto" />
-            <span className="text-slate-400 block text-[10px]">الاسم والتوقيع</span>
-          </div>
-
-          <div className="space-y-12">
-            <span className="font-bold text-slate-700 block">المحاسب / المستلم</span>
-            <span className="block border-b border-slate-400 w-3/4 mx-auto" />
-            <span className="text-slate-400 block text-[10px]">الاسم والتوقيع</span>
-          </div>
-
-          <div className="space-y-12">
-            <span className="font-bold text-slate-700 block">الختم المالي المعتمد</span>
-            <div className="w-20 h-20 mx-auto rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center text-[10px] text-slate-300">
-              ختم الحسابات
-            </div>
-          </div>
-        </div>
-      </div>
+      </OfficialLetterhead>
     </div>
   );
 }

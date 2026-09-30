@@ -7,6 +7,7 @@ import { loginAction } from "@/server/actions/authActions";
 import { useRouter } from "next/navigation";
 import { Button } from "@/shared/ui/Button";
 import { Input } from "@/shared/ui/Input";
+import { OceanFlowerEmblem } from "@/shared/components/BrandLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -77,15 +78,21 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-100 to-slate-200 flex flex-col justify-center items-center p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200/80 p-8 space-y-6 text-right">
         {/* Logo & Header */}
-        <div className="text-center space-y-2">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-600 to-primary-800 text-white flex items-center justify-center font-black text-2xl shadow-md">
-            ZK
+        <div className="text-center space-y-3">
+          <div className="flex justify-center">
+            <OceanFlowerEmblem size={80} showText={false} />
           </div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            نظام إدارة مستودعات زهرة الخليج
-          </h1>
-          <p className="text-sm text-slate-500 font-medium">
-            يرجى إدخال بيانات الدخول المعتمدة للوصول للنظام الداخلي
+          <div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+              <span className="text-[#dc2626]">زهرة المحيط</span>{" "}
+              <span className="text-[#0e3a82]">لتصدير الأسماك</span>
+            </h1>
+            <p className="text-xs font-bold text-slate-500 mt-1">
+              نظام إدارة مستودعات التبريد والمخزون الداخلي
+            </p>
+          </div>
+          <p className="text-xs text-slate-400">
+            يرجى إدخال بيانات الدخول المعتمدة للوصول للنظام
           </p>
         </div>
 
@@ -129,7 +136,7 @@ export default function LoginPage() {
 
         <div className="pt-4 border-t border-slate-100 text-center">
           <span className="text-xs text-slate-400 font-medium">
-            شركة زهرة الخليج للصيد © 2026 - نظام محمي
+            شركة زهرة المحيط لتصدير الأسماك © 2026 - المكلا، حضرموت
           </span>
         </div>
       </div>

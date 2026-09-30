@@ -25,6 +25,7 @@ import {
   X,
   Bell,
 } from "lucide-react";
+import { OceanFlowerEmblem } from "./BrandLogo";
 
 interface DashboardShellProps {
   user: SessionUser;
@@ -93,14 +94,14 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({ user, children }
 
             {/* Brand Logo & Name */}
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 text-white flex items-center justify-center font-extrabold shadow-sm text-lg">
-                ZK
-              </div>
+              <OceanFlowerEmblem size={42} showText={false} />
               <div className="hidden sm:block">
-                <span className="font-bold text-slate-900 text-base tracking-tight block">
-                  زهرة الخليج للصيد
+                <span className="font-extrabold text-slate-900 text-base tracking-tight block">
+                  <span className="text-red-600">زهرة المحيط</span> لتصدير الأسماك
                 </span>
-                <span className="text-xs text-slate-500 font-medium">نظام إدارة المستودعات والمخزون</span>
+                <span className="text-[11px] text-slate-500 font-semibold block">
+                  نظام إدارة مستودعات التبريد والمخزون
+                </span>
               </div>
             </Link>
           </div>

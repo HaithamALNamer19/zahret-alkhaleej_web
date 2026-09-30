@@ -4,8 +4,8 @@ import { NavigationProgressBar } from "@/shared/components/NavigationProgressBar
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "نظام إدارة مستودعات زهرة الخليج للصيد",
-  description: "نظام متكامل لإدارة مخزون شركات الصيد في مستودعات التبريد وحساب رسوم التخزين وسندات الإدخال والصرف",
+  title: "نظام إدارة مستودعات زهرة المحيط لتصدير الأسماك | Ocean Flower",
+  description: "نظام متكامل لإدارة مستودعات التبريد ومخزون الأسماك وحساب رسوم التخزين وسندات الإدخال والصرف - شركة زهرة المحيط لتصدير الأسماك",
 };
 
 export default function RootLayout({

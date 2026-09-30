@@ -12,7 +12,7 @@ export default async function SettingsPage() {
       <div>
         <h1 className="text-xl font-extrabold text-slate-900">إعدادات النظام العامة</h1>
         <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          إعدادات سياسة التخزين وحساب الرسوم والتنبيهات المعتمدة في شركة زهرة الخليج
+          إعدادات سياسة التخزين وحساب الرسوم والتنبيهات المعتمدة في شركة زهرة المحيط لتصدير الأسماك
         </p>
       </div>
 

@@ -17,7 +17,7 @@ async function seedDatabase() {
     stageDays: 30,
     doublingFactor: 2,
     freePeriodWarningDays: 3,
-    companyDisplayName: "شركة زهرة الخليج للصيد - مستودعات التبريد",
+    companyDisplayName: "زهرة المحيط لتصدير الأسماك (Ocean Flower)",
     vatRatePercentage: 0,
     updatedAt: admin.firestore.FieldValue.serverTimestamp(),
   });
