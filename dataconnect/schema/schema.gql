@@ -1,0 +1,37 @@
+type User @table {
+  email: String!
+  displayName: String!
+  createdAt: Timestamp!
+  preferences: String
+  avatarUrl: String
+}
+
+type Author @table {
+  name: String!
+  bio: String!
+  socialMediaLinks: String
+  profilePicture: String
+}
+
+type Category @table {
+  name: String!
+  description: String
+  slug: String
+}
+
+type Article @table {
+  title: String!
+  content: String!
+  publishedAt: Timestamp!
+  status: String!
+  imageUrl: String
+  videoUrl: String
+  category: Category
+  author: Author
+}
+
+type Bookmark @table {
+  createdAt: Timestamp!
+  user: User!
+  article: Article!
+}

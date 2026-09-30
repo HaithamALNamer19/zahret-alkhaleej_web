@@ -60,7 +60,7 @@ import {
   RequestFifoOverrideUseCase,
   ReviewApprovalUseCase,
 } from "@/modules/approvals/application/use-cases/ApprovalUseCases";
-import { HistoricalReplayService } from "@/modules/historical-replay/domain/services/HistoricalReplayService";
+import { HistoricalReplayService } from "@/modules/historical-replay/application/services/HistoricalReplayService";
 
 class Container {
   // Core Infrastructure Singletons

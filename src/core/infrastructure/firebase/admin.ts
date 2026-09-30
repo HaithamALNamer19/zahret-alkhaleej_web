@@ -25,21 +25,17 @@ function initFirebaseAdmin(): FirebaseAdminServices {
       } catch (err) {
         admin.initializeApp({ projectId });
       }
-    } else if (privateKey) {
-      // Format escaped newlines in environment variable
-      privateKey = privateKey.replace(/\\n/g, "\n");
-    }
-
-    if (clientEmail && privateKey && !privateKey.includes("...")) {
+    } else if (clientEmail && privateKey && !privateKey.includes("...")) {
+      const formattedKey = privateKey.replace(/\\n/g, "\n");
       try {
-      admin.initializeApp({
-        credential: admin.credential.cert({
+        admin.initializeApp({
+          credential: admin.credential.cert({
+            projectId,
+            clientEmail,
+            privateKey: formattedKey,
+          }),
           projectId,
-          clientEmail,
-          privateKey,
-        }),
-        projectId,
-      });
+        });
       } catch (err) {
         admin.initializeApp({ projectId });
       }

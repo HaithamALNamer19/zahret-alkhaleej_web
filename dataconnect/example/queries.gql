@@ -1,0 +1,121 @@
+# Operations for User Table
+mutation CreateUser($data: User_Data!) @auth(level: USER) {
+  user_insert(data: $data)
+}
+
+mutation UpdateUser($data: User_Data!) @auth(level: USER) {
+  user_update(key: { id_expr: "auth.uid" }, data: $data)
+}
+
+mutation DeleteUser @auth(level: USER) {
+  user_delete(key: { id_expr: "auth.uid" })
+}
+
+query GetUser @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    email displayName createdAt
+  }
+}
+
+query ListUsers @auth(level: PUBLIC, insecureReason: "Public list of users is allowed for community discoverability.") {
+  users {
+    displayName avatarUrl
+  }
+}
+
+# Operations for Author Table
+mutation CreateAuthor($data: Author_Data!) @auth(level: USER) {
+  author_insert(data: $data)
+}
+
+mutation UpdateAuthor($id: UUID!, $data: Author_Data!) @auth(level: USER) {
+  author_update(id: $id, data: $data)
+}
+
+mutation DeleteAuthor($id: UUID!) @auth(level: USER) {
+  author_delete(id: $id)
+}
+
+query GetAuthor($id: UUID!) @auth(level: PUBLIC, insecureReason: "Author profiles are public.") {
+  author(id: $id) {
+    name bio socialMediaLinks
+  }
+}
+
+query ListAuthors @auth(level: PUBLIC, insecureReason: "Public list of authors is allowed.") {
+  authors {
+    name
+  }
+}
+
+# Operations for Category Table
+mutation CreateCategory($data: Category_Data!) @auth(level: USER) {
+  category_insert(data: $data)
+}
+
+mutation UpdateCategory($id: UUID!, $data: Category_Data!) @auth(level: USER) {
+  category_update(id: $id, data: $data)
+}
+
+mutation DeleteCategory($id: UUID!) @auth(level: USER) {
+  category_delete(id: $id)
+}
+
+query GetCategory($id: UUID!) @auth(level: PUBLIC, insecureReason: "Categories are public.") {
+  category(id: $id) {
+    name slug
+  }
+}
+
+query ListCategories @auth(level: PUBLIC, insecureReason: "Public list of categories.") {
+  categories {
+    name
+  }
+}
+
+# Operations for Article Table
+mutation CreateArticle($data: Article_Data!) @auth(level: USER) {
+  article_insert(data: $data)
+}
+
+mutation UpdateArticle($id: UUID!, $data: Article_Data!) @auth(level: USER) {
+  article_update(id: $id, data: $data)
+}
+
+mutation DeleteArticle($id: UUID!) @auth(level: USER) {
+  article_delete(id: $id)
+}
+
+query GetArticle($id: UUID!) @auth(level: PUBLIC, insecureReason: "Articles are public.") {
+  article(id: $id) {
+    title content publishedAt
+  }
+}
+
+query ListArticles @auth(level: PUBLIC, insecureReason: "Public list of articles.") {
+  articles {
+    title publishedAt
+  }
+}
+
+# Operations for Bookmark Table
+mutation CreateBookmark($data: Bookmark_Data!) @auth(level: USER) {
+  bookmark_insert(data: $data)
+}
+
+mutation DeleteBookmark($id: UUID!) @auth(level: USER) {
+  bookmark_delete(id: $id)
+}
+
+query GetBookmark($id: UUID!) @auth(level: USER) {
+  bookmark(id: $id) {
+    createdAt article { title }
+  }
+}
+
+query ListMyBookmarks @auth(level: USER) {
+  bookmarks(where: { userId: { eq_expr: "auth.uid" } }) {
+    article { title }
+    createdAt
+  }
+}
