@@ -60,6 +60,13 @@ export default function LoginPage() {
         err.code === "auth/wrong-password"
       ) {
         setError("اسم المستخدم أو كلمة المرور غير صحيحة.");
+      } else if (
+        err.code === "auth/configuration-not-found" ||
+        err.code === "auth/operation-not-allowed"
+      ) {
+        setError("خدمة المصادقة (Authentication) غير مفعلة في مشروع Firebase. يرجى تفعيل طريقة الدخول (Email/Password) من لوحة تحكم Firebase Console.");
+      } else if (err.code === "auth/network-request-failed") {
+        setError("تعذر الاتصال بخوادم Firebase. يرجى التحقق من اتصال الإنترنت.");
       } else {
         setError(err.message || "حدث خطأ غير متوقع أثناء تسجيل الدخول.");
       }
