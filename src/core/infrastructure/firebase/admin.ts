@@ -1,4 +1,6 @@
 import * as admin from "firebase-admin";
+import * as fs from "fs";
+import * as path from "path";
 
 interface FirebaseAdminServices {
   auth: admin.auth.Auth;
@@ -7,11 +9,23 @@ interface FirebaseAdminServices {
 
 function initFirebaseAdmin(): FirebaseAdminServices {
   if (!admin.apps.length) {
-    const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "zahret-alkhaleej-wms";
+    const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "zahret-alkhaleej";
     const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
     let privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
 
-    if (privateKey) {
+    const localKeyPath = path.resolve(process.cwd(), "serviceAccountKey.json");
+    if (fs.existsSync(localKeyPath)) {
+      try {
+        const fileContent = fs.readFileSync(localKeyPath, "utf8");
+        const serviceAccount = JSON.parse(fileContent);
+        admin.initializeApp({
+          credential: admin.credential.cert(serviceAccount),
+          projectId: serviceAccount.project_id || projectId,
+        });
+      } catch (err) {
+        admin.initializeApp({ projectId });
+      }
+    } else if (privateKey) {
       // Format escaped newlines in environment variable
       privateKey = privateKey.replace(/\\n/g, "\n");
     }
