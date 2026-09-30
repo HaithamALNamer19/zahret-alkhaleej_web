@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { adminAuth, adminFirestore } from "@/core/infrastructure/firebase/admin";
 import { UserRole } from "@/core/application/authorization/Role";
 
@@ -79,11 +80,11 @@ export async function destroySessionCookie(): Promise<void> {
 export async function requireAuth(allowedRoles?: UserRole[]): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) {
-    throw new Error("UNAUTHENTICATED");
+    redirect("/login");
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    throw new Error("UNAUTHORIZED");
+    redirect("/");
   }
 
   return user;
