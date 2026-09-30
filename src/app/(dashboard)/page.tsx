@@ -158,14 +158,14 @@ export default async function DashboardPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/inbound/new"
-            className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-xs transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-xs transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer flex items-center gap-2"
           >
             <ArrowDownLeft className="w-4 h-4" />
             <span>سند إدخال جديد</span>
           </Link>
           <Link
             href="/outbound/new"
-            className="px-4 py-2 text-xs sm:text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 border border-primary-200/60 rounded-xl transition-colors flex items-center gap-2"
+            className="px-4 py-2 text-xs sm:text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 border border-primary-200/60 rounded-xl transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer flex items-center gap-2"
           >
             <ArrowUpRight className="w-4 h-4" />
             <span>سند صرف جديد</span>

@@ -30,7 +30,7 @@ export default async function OutboundPage() {
 
         <Link
           href="/outbound/new"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold shadow-xs transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold shadow-xs transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>إنشاء سند صرف جديد (FIFO)</span>
