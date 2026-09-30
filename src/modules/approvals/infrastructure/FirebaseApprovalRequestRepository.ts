@@ -15,18 +15,19 @@ export class FirebaseApprovalRequestRepository implements ApprovalRequestReposit
   public async findPending(): Promise<ApprovalRequest[]> {
     const snap = await this.collection
       .where("status", "==", "PENDING")
-      .orderBy("requestedAt", "desc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToApproval(doc.id, doc.data()));
+    const list = snap.docs.map((doc) => this.mapDocToApproval(doc.id, doc.data()));
+    return list.sort((a, b) => b.getRequestedAt().getTime() - a.getRequestedAt().getTime());
   }
 
   public async findAll(status?: ApprovalStatus): Promise<ApprovalRequest[]> {
-    let query: admin.firestore.Query = this.collection.orderBy("requestedAt", "desc");
+    let query: admin.firestore.Query = this.collection;
     if (status) {
       query = query.where("status", "==", status);
     }
     const snap = await query.get();
-    return snap.docs.map((doc) => this.mapDocToApproval(doc.id, doc.data()));
+    const list = snap.docs.map((doc) => this.mapDocToApproval(doc.id, doc.data()));
+    return list.sort((a, b) => b.getRequestedAt().getTime() - a.getRequestedAt().getTime());
   }
 
   public async save(request: ApprovalRequest): Promise<void> {

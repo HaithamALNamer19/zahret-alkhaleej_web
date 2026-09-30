@@ -180,26 +180,26 @@ export class FirebaseLotRepository implements LotRepository {
       .where("fishItemId", "==", fishItemId)
       .where("fishSizeId", "==", fishSizeId)
       .where("status", "==", "OPEN")
-      .orderBy("entryDate", "asc")
       .get();
 
-    return snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    const lots = snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    return lots.sort((a, b) => (a.getEntryDate().isBefore(b.getEntryDate()) ? -1 : 1));
   }
 
   public async findByCompanyId(companyId: string): Promise<Lot[]> {
     const snap = await this.collection
       .where("companyId", "==", companyId)
-      .orderBy("entryDate", "desc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    const lots = snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    return lots.sort((a, b) => (b.getEntryDate().isBefore(a.getEntryDate()) ? -1 : 1));
   }
 
   public async findAllOpenLots(): Promise<Lot[]> {
     const snap = await this.collection
       .where("status", "==", "OPEN")
-      .orderBy("entryDate", "asc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    const lots = snap.docs.map((doc) => this.mapDocToLot(doc.id, doc.data()));
+    return lots.sort((a, b) => (a.getEntryDate().isBefore(b.getEntryDate()) ? -1 : 1));
   }
 
   public async save(lot: Lot, transaction?: FirebaseFirestore.Transaction): Promise<void> {
@@ -338,9 +338,9 @@ export class FirebaseOutboundReceiptRepository implements OutboundReceiptReposit
   public async findAllocationsByLotId(lotId: string): Promise<OutboundAllocation[]> {
     const snap = await this.allocationsCol
       .where("lotId", "==", lotId)
-      .orderBy("withdrawalDate", "asc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToAllocation(doc.id, doc.data()));
+    const allocations = snap.docs.map((doc) => this.mapDocToAllocation(doc.id, doc.data()));
+    return allocations.sort((a, b) => (a.getWithdrawalDate().isBefore(b.getWithdrawalDate()) ? -1 : 1));
   }
 
   private mapDocToOutbound(id: string, data: admin.firestore.DocumentData): OutboundReceipt {

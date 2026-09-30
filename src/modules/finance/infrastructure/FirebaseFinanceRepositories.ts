@@ -29,9 +29,9 @@ export class FirebasePaymentRepository implements PaymentRepository {
   public async findByCompanyId(companyId: string): Promise<Payment[]> {
     const snap = await this.collection
       .where("companyId", "==", companyId)
-      .orderBy("paymentDate", "asc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToPayment(doc.id, doc.data()));
+    const payments = snap.docs.map((doc) => this.mapDocToPayment(doc.id, doc.data()));
+    return payments.sort((a, b) => (a.getPaymentDate().isBefore(b.getPaymentDate()) ? -1 : 1));
   }
 
   public async findAll(): Promise<Payment[]> {
@@ -96,9 +96,9 @@ export class FirebaseDiscountRepository implements DiscountRepository {
   public async findByCompanyId(companyId: string): Promise<Discount[]> {
     const snap = await this.collection
       .where("companyId", "==", companyId)
-      .orderBy("date", "asc")
       .get();
-    return snap.docs.map((doc) => this.mapDocToDiscount(doc.id, doc.data()));
+    const discounts = snap.docs.map((doc) => this.mapDocToDiscount(doc.id, doc.data()));
+    return discounts.sort((a, b) => (a.getDate().isBefore(b.getDate()) ? -1 : 1));
   }
 
   public async findAll(): Promise<Discount[]> {
