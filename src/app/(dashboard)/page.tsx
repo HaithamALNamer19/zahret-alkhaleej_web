@@ -17,6 +17,7 @@ import {
   DollarSign,
   TrendingUp,
 } from "lucide-react";
+import { OceanFlowerEmblem } from "@/shared/components/BrandLogo";
 
 export default async function DashboardPage() {
   const user = await requireAuth();
@@ -145,31 +146,69 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Top Welcome Card */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-xs">
-        <div>
-          <h1 className="text-xl font-extrabold text-slate-900">
-            مرحباً بك، {user.displayName} 👋
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            نظام إدارة مستودعات زهرة المحيط لتصدير الأسماك — تاريخ اليوم: {today.formatArabic()}
-          </p>
+      {/* Top Branded Corporate Hero Banner */}
+      <div className="bg-gradient-to-r from-[#061838] via-[#0b2e6b] to-[#071a3d] text-white p-6 sm:p-7 rounded-3xl shadow-xl border border-blue-900/60 relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+        {/* Subtle Decorative Wave in SVG */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <svg className="w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="none" fill="none">
+            <path d="M0 100 Q250 20 500 120 T1000 60 L1000 200 L0 200 Z" fill="#60a5fa" />
+            <path d="M0 140 Q250 80 500 160 T1000 120 L1000 200 L0 200 Z" fill="#dc2626" />
+          </svg>
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Brand Details & Greeting */}
+        <div className="relative z-10 space-y-2">
+          <div className="flex items-center gap-3.5">
+            <OceanFlowerEmblem size={52} showText={false} />
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+                  مرحباً بك، {user.displayName}
+                </h1>
+                <span className="text-[#f87171] text-xl">👋</span>
+              </div>
+              <p className="text-xs sm:text-sm text-blue-200/90 font-medium">
+                شركة زهرة المحيط لتصدير الأسماك — التاريخ المعتمد: {today.formatArabic()}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-blue-100 font-semibold backdrop-blur-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>نظام التبريد: 4 مستودعات جاهزة</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-blue-100 font-mono font-semibold backdrop-blur-xs">
+              <span>سعة الإشغال: {((totalWeight.toTons() / 1150) * 100).toFixed(1)}% من 1,150 طن</span>
+            </span>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="relative z-10 flex flex-wrap items-center gap-2.5 shrink-0">
           <Link
             href="/inbound/new"
-            className="px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-primary-600 hover:bg-primary-700 rounded-xl shadow-xs transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer flex items-center gap-2"
+            className="px-4 py-2.5 text-xs sm:text-sm font-bold text-[#0e3a82] bg-white hover:bg-blue-50 rounded-xl shadow-md transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
           >
-            <ArrowDownLeft className="w-4 h-4" />
-            <span>سند إدخال جديد</span>
+            <ArrowDownLeft className="w-4 h-4 text-[#dc2626]" />
+            <span>سند إدخال صيد</span>
           </Link>
           <Link
             href="/outbound/new"
-            className="px-4 py-2 text-xs sm:text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 border border-primary-200/60 rounded-xl transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer flex items-center gap-2"
+            className="px-4 py-2.5 text-xs sm:text-sm font-bold text-white bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl backdrop-blur-xs transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
           >
-            <ArrowUpRight className="w-4 h-4" />
-            <span>سند صرف جديد</span>
+            <ArrowUpRight className="w-4 h-4 text-cyan-300" />
+            <span>سند صرف FIFO</span>
           </Link>
+          {isManager && (
+            <Link
+              href="/finance"
+              className="px-4 py-2.5 text-xs sm:text-sm font-bold text-white bg-emerald-700/60 hover:bg-emerald-700 border border-emerald-500/40 rounded-xl backdrop-blur-xs transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
+            >
+              <DollarSign className="w-4 h-4 text-emerald-300" />
+              <span>المالية</span>
+            </Link>
+          )}
         </div>
       </div>
 
