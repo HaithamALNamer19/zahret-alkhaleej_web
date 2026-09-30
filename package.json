@@ -8,7 +8,8 @@
     "start": "next start",
     "test": "vitest run",
     "test:watch": "vitest",
-    "admin:create": "tsx scripts/create-initial-admin.ts"
+    "admin:create": "tsx scripts/create-initial-admin.ts",
+    "db:seed": "tsx scripts/seed-database.ts"
   },
   "dependencies": {
     "next": "^15.1.0",
