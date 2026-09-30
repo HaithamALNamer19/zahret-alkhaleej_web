@@ -30,6 +30,7 @@ import {
 } from "@/modules/catalog/application/use-cases/CatalogUseCases";
 
 import { FirebaseSettingsRepository } from "@/modules/settings/infrastructure/FirebaseSettingsRepository";
+import { UpdateSystemSettingsUseCase } from "@/modules/settings/application/use-cases/UpdateSystemSettingsUseCase";
 
 import {
   FirebaseInboundReceiptRepository,
@@ -187,6 +188,12 @@ class Container {
     this.auditLogger
   );
   public readonly historicalReplayService = new HistoricalReplayService(
+    this.auditLogger
+  );
+
+  // Use Cases: Settings
+  public readonly updateSystemSettingsUseCase = new UpdateSystemSettingsUseCase(
+    this.settingsRepository,
     this.auditLogger
   );
 }
