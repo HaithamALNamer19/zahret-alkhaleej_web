@@ -22,9 +22,9 @@ export default async function InboundPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">سندات الإدخال (Inbound Receipts)</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">سندات الاستلام والتوريد</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            سجلات إدخال الصيد وتوزيع الدفعات على مستودعات التبريد
+            سجلات استلام وتخزين الصيد وتوزيع الكميات على عنابر التبريد
           </p>
         </div>
 
@@ -33,7 +33,7 @@ export default async function InboundPage() {
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold shadow-xs transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          <span>إنشاء سند إدخال جديد</span>
+          <span>سند استلام جديد</span>
         </Link>
       </div>
 
@@ -41,7 +41,7 @@ export default async function InboundPage() {
         {inbounds.length === 0 ? (
           <div className="py-12 text-center text-slate-400 text-sm">
             <FileInput className="w-10 h-10 mx-auto text-slate-300 mb-2" />
-            لا توجد سندات إدخال مسجلة بعد.
+            لا توجد سندات استلام مسجلة بعد.
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -50,7 +50,7 @@ export default async function InboundPage() {
                 <tr className="border-b border-slate-100 text-slate-400 font-semibold bg-slate-50/50">
                   <th className="p-3.5">رقم السند</th>
                   <th className="p-3.5">الشركة</th>
-                  <th className="p-3.5">تاريخ الإدخال</th>
+                  <th className="p-3.5">تاريخ الاستلام</th>
                   <th className="p-3.5">عدد الأصناف</th>
                   <th className="p-3.5">الحالة</th>
                   <th className="p-3.5 text-center">الطباعة والإجراءات</th>

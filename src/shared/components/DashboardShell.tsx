@@ -46,43 +46,43 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({ user, children }
   // Categorized Navigation Groups
   const navSections = [
     {
-      title: "العمليات وحركة الصيد",
+      title: "حركة المخزون والتوريد",
       items: [
         { name: "الرئيسية", href: "/", icon: LayoutDashboard },
-        { name: "سندات الإدخال", href: "/inbound", icon: FileInput },
-        { name: "سندات الصرف (FIFO)", href: "/outbound", icon: FileOutput },
-        { name: "المخزون والدفعات", href: "/inventory", icon: Boxes },
+        { name: "سندات الاستلام", href: "/inbound", icon: FileInput },
+        { name: "سندات الصرف", href: "/outbound", icon: FileOutput },
+        { name: "دفعات المخزون", href: "/inventory", icon: Boxes },
       ],
     },
     {
-      title: "العملاء والمستودعات",
+      title: "الشركات والمستودعات",
       items: [
         { name: "شركات الصيد", href: "/companies", icon: Building2 },
-        { name: "مستودعات التبريد", href: "/warehouses", icon: WarehouseIcon },
+        { name: "عنابر التبريد", href: "/warehouses", icon: WarehouseIcon },
         { name: "دليل الصيد والأسعار", href: "/catalog", icon: Fish },
       ],
     },
     {
-      title: "الشؤون المالية والموافقات",
+      title: "الحسابات والمالية",
       items: [
         ...(isManager
           ? [{ name: "المالية والحسابات", href: "/finance", icon: DollarSign }]
           : []),
-        { name: "طلبات الموافقات", href: "/approvals", icon: FileCheck2 },
-        { name: "التقارير الإحصائية", href: "/reports", icon: BarChart3 },
+        { name: "طلبات الاعتماد", href: "/approvals", icon: FileCheck2 },
+        { name: "التقارير والإحصائيات", href: "/reports", icon: BarChart3 },
       ],
     },
     {
-      title: "إدارة النظام والرقابة",
+      title: "الإدارة والمستخدمين",
       items: [
         ...(isGeneralManager
-          ? [{ name: "إدارة المستخدمين", href: "/users", icon: Users }]
+          ? [{ name: "المستخدمين والصلاحيات", href: "/users", icon: Users }]
           : []),
         ...(isManager
-          ? [{ name: "سجل التدقيق والرقابة", href: "/audit", icon: ScrollText }]
+          ? [{ name: "سجل حركات النظام", href: "/audit", icon: ScrollText }]
           : []),
         ...(isGeneralManager
-          ? [{ name: "إعدادات النظام العامة", href: "/settings", icon: Settings }]
+          ? [{ name: "إعدادات النظام", href: "/settings", icon: Settings }]
           : []),
       ],
     },
@@ -127,16 +127,16 @@ export const DashboardShell: React.FC<DashboardShellProps> = ({ user, children }
             </Link>
           </div>
 
-          {/* Central Live System Status Badges (Hidden on mobile) */}
+          {/* Central Status Badges (Hidden on mobile) */}
           <div className="hidden md:flex items-center gap-2.5">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-blue-100 text-xs font-semibold backdrop-blur-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>4 مستودعات تبريد نشطة</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>4 عنابر تبريد وتجميد</span>
             </div>
 
             <div className="hidden xl:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-200 text-xs font-mono font-bold">
               <ThermometerSnowflake className="w-3.5 h-3.5 text-cyan-400" />
-              <span>تبريد عميق -25°C ~ -35°C</span>
+              <span>حرارة التجميد: -25°C إلى -35°C</span>
             </div>
           </div>
 

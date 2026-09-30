@@ -48,8 +48,8 @@ export default async function PrintOutboundReceiptPage({
         receiptNumber={outb.getReceiptNumber().getValue()}
         dateArabic={outb.getWithdrawalDate().formatArabic()}
         dateEnglish={outb.getWithdrawalDate().toString()}
-        documentTitle="سند صرف وإفراج صيد (مستودعات التبريد)"
-        documentSubtitle="OUTBOUND FISH RELEASE ORDER"
+        documentTitle="سند صرف وتسليم صيد"
+        documentSubtitle="FISH RELEASE & OUTBOUND VOUCHER"
         isCancelled={outb.getStatus() === "CANCELLED"}
         cancellationReason={outb.getCancellationReason()}
         qrValue={qrPayload}
@@ -94,7 +94,7 @@ export default async function PrintOutboundReceiptPage({
                 <th className="p-2 border border-slate-400">الصنف السمكي</th>
                 <th className="p-2 border border-slate-400">الحجم</th>
                 <th className="p-2 border border-slate-400">الوزن المصروف</th>
-                <th className="p-2 border border-slate-400">تفاصيل السحب والتخصيص (FIFO)</th>
+                <th className="p-2 border border-slate-400">تفاصيل سحب الكميات من الدفعات المخزنة</th>
               </tr>
             </thead>
             <tbody>
@@ -154,7 +154,7 @@ export default async function PrintOutboundReceiptPage({
 
           {/* Storage Rule Notice */}
           <div className="p-2.5 bg-amber-50/70 border border-amber-200 rounded-lg text-[10.5px] text-amber-900 leading-relaxed">
-            <strong>ملاحظة نظام التخزين:</strong> وفقاً للائحة مستودعات التبريد، يدخل تخفيض رسوم التخزين للكميات المصروفة حيز التنفيذ ابتداءً من اليوم التالي لتاريخ الصرف ({outb.getWithdrawalDate().formatArabic()}).
+            <strong>تنبيه:</strong> يتوقف احتساب رسوم التخزين للكميات المصروفة أعلاه ابتداءً من اليوم التالي لتاريخ الصرف ({outb.getWithdrawalDate().formatArabic()}).
           </div>
 
           {/* Notes */}
@@ -174,13 +174,13 @@ export default async function PrintOutboundReceiptPage({
             </div>
 
             <div className="space-y-10">
-              <span className="font-bold text-slate-800 block">أمين مستودع التبريد</span>
+              <span className="font-bold text-slate-800 block">أمين المستودع</span>
               <span className="block border-b border-slate-400 w-3/4 mx-auto" />
               <span className="text-slate-500 block text-[10px]">التوقيع والاسم</span>
             </div>
 
             <div className="flex flex-col items-center justify-center">
-              <span className="font-bold text-slate-800 block mb-1">الختم المعتمد</span>
+              <span className="font-bold text-slate-800 block mb-1">ختم المستودع</span>
               <OfficialEmbossedSeal dateStr={outb.getWithdrawalDate().toString()} size={88} />
             </div>
           </div>

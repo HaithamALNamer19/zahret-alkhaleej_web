@@ -34,9 +34,9 @@ export default async function NewOutboundPage() {
           <ArrowRight className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">إنشاء سند صرف صيد جديد (قاعدة FIFO)</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">إنشاء سند صرف صيد جديد</h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            يتم تحديد أقدم الدفعات تلقائياً لنفس الصنف والحجم عبر جميع المستودعات مع إمكانية توزيع مواقع السحب
+            صرف وتسليم الصيد حسب أقدمية التوريد لنفس الصنف والحجم عبر عنابر التبريد مع تحديد مواقع السحب
           </p>
         </div>
       </div>

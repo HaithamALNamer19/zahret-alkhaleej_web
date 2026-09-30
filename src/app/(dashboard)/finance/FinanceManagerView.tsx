@@ -210,7 +210,7 @@ export const FinanceManagerView: React.FC<FinanceManagerViewProps> = ({
                           className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
                         >
                           <Printer className="w-3.5 h-3.5" />
-                          <span>إيصال A4</span>
+                          <span>طباعة السند</span>
                         </Link>
                       </td>
                     </tr>

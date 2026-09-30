@@ -265,7 +265,7 @@ export const CatalogManagerView: React.FC<CatalogManagerViewProps> = ({
       >
         <form onSubmit={handleUpdatePrice} className="space-y-4">
           <div className="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-xl">
-            ⚠️ <strong>ملاحظة معمارية هامة:</strong> تعديل السعر هنا سيؤثر على الدفعات الجديدة التي تدخل مستقبلاً فقط. الدفعات السابقة تحتفظ بنسخة السعر التي دخلت بها (Price Snapshot).
+            ⚠️ <strong>تنبيه للمدير:</strong> تعديل السعر هنا يسري على عمليات التوريد الجديدة فقط، بينما تستمر البضاعة المخزنة حالياً في المستودع باحتساب رسومها وفق السعر المسجل عند دخولها.
           </div>
 
           <Input

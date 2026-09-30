@@ -248,8 +248,8 @@ export const InboundReceiptForm: React.FC<InboundReceiptFormProps> = ({
 
       {/* Lines & Warehouses Distribution Table */}
       <Card
-        title="أصناف الصيد والدفعات وتوزيع المستودعات"
-        subtitle="كل سطر يمثل دفعة مستقلة (Lot) يتم حساب رسومها وفترتها المجانية بشكل منفصل"
+        title="أصناف الصيد والدفعات وتوزيع العنابر"
+        subtitle="يتم قيد كل صنف كدفعة تخزينية منفصلة مع تثبيت فترة السماح والتعرفة اليومية"
         action={
           <Button
             type="button"
@@ -340,7 +340,7 @@ export const InboundReceiptForm: React.FC<InboundReceiptFormProps> = ({
                 {/* Warehouse Distribution Sub-table */}
                 <div className="pt-2 border-t border-slate-200/60">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-slate-700">توزيع الكمية على المستودعات:</span>
+                    <span className="text-xs font-bold text-slate-700">توزيع الكمية على عنابر التبريد:</span>
                     <span
                       className={`text-xs font-semibold ${
                         isMatch ? "text-emerald-600" : "text-amber-600"
@@ -388,7 +388,7 @@ export const InboundReceiptForm: React.FC<InboundReceiptFormProps> = ({
           إلغاء
         </Button>
         <Button type="submit" isLoading={isLoading} className="px-6">
-          اعتماد وحفظ سند الإدخال
+          اعتماد وحفظ سند الاستلام
         </Button>
       </div>
     </form>

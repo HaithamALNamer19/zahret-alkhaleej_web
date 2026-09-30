@@ -168,18 +168,18 @@ export default async function DashboardPage() {
                 <span className="text-[#f87171] text-xl">👋</span>
               </div>
               <p className="text-xs sm:text-sm text-blue-200/90 font-medium">
-                شركة زهرة المحيط لتصدير الأسماك — التاريخ المعتمد: {today.formatArabic()}
+                شركة زهرة المحيط لتصدير الأسماك — تاريخ اليوم: {today.formatArabic()}
               </p>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 pt-1">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-blue-100 font-semibold backdrop-blur-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>نظام التبريد: 4 مستودعات جاهزة</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>جاهزية التبريد: 4 عنابر نشطة</span>
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs text-blue-100 font-mono font-semibold backdrop-blur-xs">
-              <span>سعة الإشغال: {((totalWeight.toTons() / 1150) * 100).toFixed(1)}% من 1,150 طن</span>
+              <span>إشغال العنابر: {((totalWeight.toTons() / 1150) * 100).toFixed(1)}% من 1,150 طن</span>
             </span>
           </div>
         </div>
@@ -191,14 +191,14 @@ export default async function DashboardPage() {
             className="px-4 py-2.5 text-xs sm:text-sm font-bold text-[#0e3a82] bg-white hover:bg-blue-50 rounded-xl shadow-md transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
           >
             <ArrowDownLeft className="w-4 h-4 text-[#dc2626]" />
-            <span>سند إدخال صيد</span>
+            <span>سند استلام صيد</span>
           </Link>
           <Link
             href="/outbound/new"
             className="px-4 py-2.5 text-xs sm:text-sm font-bold text-white bg-white/15 hover:bg-white/25 border border-white/20 rounded-xl backdrop-blur-xs transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
           >
             <ArrowUpRight className="w-4 h-4 text-cyan-300" />
-            <span>سند صرف FIFO</span>
+            <span>سند صرف صيد</span>
           </Link>
           {isManager && (
             <Link
@@ -206,7 +206,7 @@ export default async function DashboardPage() {
               className="px-4 py-2.5 text-xs sm:text-sm font-bold text-white bg-emerald-700/60 hover:bg-emerald-700 border border-emerald-500/40 rounded-xl backdrop-blur-xs transition-all duration-75 active:scale-95 active:shadow-inner flex items-center gap-2"
             >
               <DollarSign className="w-4 h-4 text-emerald-300" />
-              <span>المالية</span>
+              <span>سند قبض مالي</span>
             </Link>
           )}
         </div>
@@ -427,7 +427,7 @@ export default async function DashboardPage() {
         </Card>
 
         <Card
-          title="أحدث سندات الصرف (FIFO)"
+          title="أحدث سندات الصرف"
           action={
             <Link href="/outbound" className="text-xs text-primary-600 font-semibold hover:underline">
               عرض الكل

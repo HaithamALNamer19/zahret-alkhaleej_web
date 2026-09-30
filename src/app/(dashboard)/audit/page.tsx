@@ -32,15 +32,15 @@ export default async function AuditLogPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">سجل التدقيق العام (Audit Trail)</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">سجل الرقابة وحركات النظام</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            سجل غير قابل للتعديل يوثق جميع العمليات الإدارية والمخزنية والمالية وحالات التجاوز
+            سجل رسمي يوثق جميع العمليات المخزنية والمالية والإدارية والتجاوزات
           </p>
         </div>
 
         <Badge variant="info" className="gap-1.5 py-1 px-3">
           <ShieldCheck className="w-3.5 h-3.5" />
-          <span>سجل محمي ومؤمن (Append-Only)</span>
+          <span>سجل رقابي غير قابل للتعديل</span>
         </Badge>
       </div>
 
@@ -56,9 +56,9 @@ export default async function AuditLogPage() {
               <thead>
                 <tr className="border-b border-slate-100 text-slate-400 font-semibold bg-slate-50/50">
                   <th className="p-3.5">الوقت والتاريخ</th>
-                  <th className="p-3.5">المستخدم (الفاعل)</th>
-                  <th className="p-3.5">نوع العملية</th>
-                  <th className="p-3.5">الكيان المتأثر</th>
+                  <th className="p-3.5">المستخدم المنفذ</th>
+                  <th className="p-3.5">نوع الحركة</th>
+                  <th className="p-3.5">السجل / المستند</th>
                   <th className="p-3.5">المرجع</th>
                   <th className="p-3.5">السبب / البيان</th>
                 </tr>

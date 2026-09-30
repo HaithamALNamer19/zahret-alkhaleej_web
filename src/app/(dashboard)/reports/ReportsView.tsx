@@ -48,12 +48,12 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
         },
       ];
     } else if (reportType === "inbound") {
-      fileName = "تقرير_سندات_الإدخال";
+      fileName = "تقرير_سندات_الاستلام_والتوريد";
       data = [
         {
           "رقم السند": "IN-2026-000001",
           "الشركة": "شركة بحر العرب للصيد",
-          "تاريخ الإدخال": "2026-10-01",
+          "تاريخ الاستلام": "2026-10-01",
           "إجمالي الوزن (كجم)": 10000,
           "الحالة": "معتمد",
         },
@@ -144,8 +144,8 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
               className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-primary-500"
             >
               <option value="inventory">تقرير المخزون الحالي والدفعات</option>
-              <option value="inbound">تقرير سندات الإدخال</option>
-              <option value="outbound">تقرير سندات الصرف</option>
+              <option value="inbound">تقرير سندات الاستلام والتوريد</option>
+              <option value="outbound">تقرير سندات الصرف والتسليم</option>
               {isManager && (
                 <>
                   <option value="payments">تقرير المقبوضات والتحصيلات</option>
@@ -172,13 +172,13 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-slate-700">المستودع (اختياري)</label>
+            <label className="block text-xs font-semibold text-slate-700">عنبر التبريد (اختياري)</label>
             <select
               value={selectedWarehouse}
               onChange={(e) => setSelectedWarehouse(e.target.value)}
               className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-primary-500"
             >
-              <option value="">جميع المستودعات</option>
+              <option value="">جميع عنابر التبريد</option>
               {warehouses.map((w) => (
                 <option key={w.id} value={w.id}>
                   {w.name} ({w.code})
@@ -206,7 +206,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
           التقرير جاهز للعرض والتصدير
         </h3>
         <p className="text-xs text-slate-500 max-w-md mx-auto">
-          يمكنك الضغط على زر <strong>تصدير ملف Excel</strong> بالأعلى لتحميل التقرير باللغة العربية مع دعم التنسيق المالي وجداول الـ RTL.
+          يمكنك الضغط على زر <strong>تصدير ملف Excel</strong> بالأعلى لتحميل التقرير باللغة العربية مع الأوزان بالكيلوجرام والمبالغ بالريال اليمني.
         </p>
       </Card>
     </div>

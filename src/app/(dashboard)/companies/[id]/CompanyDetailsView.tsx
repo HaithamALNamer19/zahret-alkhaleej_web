@@ -289,7 +289,7 @@ export const CompanyDetailsView: React.FC<CompanyDetailsViewProps> = ({
                   <tr className="border-b border-slate-100 text-slate-400 font-semibold">
                     <th className="pb-2.5">رقم الدفعة</th>
                     <th className="pb-2.5">الصنف والحجم</th>
-                    <th className="pb-2.5">تاريخ الإدخال</th>
+                    <th className="pb-2.5">تاريخ التوريد</th>
                     <th className="pb-2.5">الوزن الأصلي</th>
                     <th className="pb-2.5">الرصيد المتبقي</th>
                     <th className="pb-2.5">السعر الأساسي</th>
@@ -338,9 +338,9 @@ export const CompanyDetailsView: React.FC<CompanyDetailsViewProps> = ({
       {/* Tab: Movements */}
       {activeTab === "movements" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card title="سندات الإدخال">
+          <Card title="سندات الاستلام والتوريد">
             {inbounds.length === 0 ? (
-              <div className="py-8 text-center text-slate-400 text-xs">لا توجد سندات إدخال.</div>
+              <div className="py-8 text-center text-slate-400 text-xs">لا توجد سندات استلام.</div>
             ) : (
               <div className="divide-y divide-slate-100">
                 {inbounds.map((inb) => (
@@ -358,7 +358,7 @@ export const CompanyDetailsView: React.FC<CompanyDetailsViewProps> = ({
             )}
           </Card>
 
-          <Card title="سندات الصرف">
+          <Card title="سندات الصرف والتسليم">
             {outbounds.length === 0 ? (
               <div className="py-8 text-center text-slate-400 text-xs">لا توجد سندات صرف.</div>
             ) : (

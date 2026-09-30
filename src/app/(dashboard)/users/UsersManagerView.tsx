@@ -174,7 +174,7 @@ export const UsersManagerView: React.FC<UsersManagerViewProps> = ({
       <Modal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
-        title="إنشاء مستخدم نظام جديد"
+        title="إضافة مستخدم جديد"
         maxWidth="md"
       >
         <form onSubmit={handleCreate} className="space-y-4">
@@ -215,9 +215,9 @@ export const UsersManagerView: React.FC<UsersManagerViewProps> = ({
               onChange={(e) => setNewRole(e.target.value as UserRole)}
               className="w-full px-3.5 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-primary-500"
             >
-              <option value="EMPLOYEE">موظف مستودع (سندات ومخزون)</option>
-              <option value="WAREHOUSE_MANAGER">مدير مستودعات (مخزون ومالية وموافقات)</option>
-              <option value="GENERAL_MANAGER">المدير العام (الصلاحيات الكاملة)</option>
+              <option value="EMPLOYEE">موظف مخزن (سندات استلام وصرف)</option>
+              <option value="WAREHOUSE_MANAGER">مدير المستودع (مخزون، أسعار، واعتمادات)</option>
+              <option value="GENERAL_MANAGER">المدير العام (كافة الصلاحيات الإدارية والمالية)</option>
             </select>
           </div>
 

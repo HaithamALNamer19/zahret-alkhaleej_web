@@ -64,16 +64,16 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">مستودعات التبريد</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">عنابر التبريد والتجميد</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            إدارة هناجر وغرف التبريد التابعة للشركة وتوزيع المخزون عليها
+            إدارة غرف وعنابر التجميد وتوزيع بضائع الشركات عليها
           </p>
         </div>
 
         {isManager && (
           <Button onClick={() => setIsModalOpen(true)} className="gap-2">
             <Plus className="w-4 h-4" />
-            <span>إضافة مستودع تبريد جديد</span>
+            <span>إضافة عنبر جديد</span>
           </Button>
         )}
       </div>
@@ -89,7 +89,7 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
                 <h3 className="font-bold text-slate-900 text-base mt-2">{wh.name}</h3>
               </div>
               <Badge variant={wh.status === "ACTIVE" ? "success" : "neutral"}>
-                {wh.status === "ACTIVE" ? "نشط وتشغيلي" : "معطل"}
+                {wh.status === "ACTIVE" ? "جاهز للتشغيل" : "معطل"}
               </Badge>
             </div>
 
@@ -106,7 +106,7 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="إضافة مستودع تبريد جديد"
+        title="إضافة عنبر تبريد جديد"
         maxWidth="md"
       >
         {error && (
@@ -117,7 +117,7 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
 
         <form onSubmit={handleCreate} className="space-y-4">
           <Input
-            label="كود المستودع (مثال: WH-A أو WH-1) *"
+            label="كود العنبر (مثال: WH-A أو WH-1) *"
             value={code}
             onChange={(e) => setCode(e.target.value)}
             required
@@ -127,8 +127,8 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
           />
 
           <Input
-            label="اسم المستودع / الغرفة *"
-            placeholder="مثال: مستودع التبريد رقم 1 - الميناء"
+            label="اسم العنبر / الغرفة *"
+            placeholder="مثال: عنبر التجميد رقم 1 - الميناء"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
@@ -155,7 +155,7 @@ export const WarehouseManagerView: React.FC<WarehouseManagerViewProps> = ({
               إلغاء
             </Button>
             <Button type="submit" size="sm" isLoading={isLoading}>
-              حفظ المستودع
+              حفظ العنبر
             </Button>
           </div>
         </form>

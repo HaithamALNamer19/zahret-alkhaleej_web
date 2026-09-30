@@ -53,11 +53,11 @@ export const ApprovalQueueView: React.FC<ApprovalQueueViewProps> = ({
   const getTypeName = (type: string) => {
     switch (type) {
       case "FIFO_OVERRIDE":
-        return "تجاوز قاعدة FIFO";
+        return "صرف دفعة محددة (استثناء أقدمية)";
       case "BACKDATED_TRANSACTION":
-        return "حركة بتاريخ سابق";
+        return "تسجيل حركة بتاريخ سابق";
       case "CANCEL_SENSITIVE_OPERATION":
-        return "إلغاء عملية حساسة";
+        return "إلغاء عملية معتمدة";
       default:
         return type;
     }
@@ -67,9 +67,9 @@ export const ApprovalQueueView: React.FC<ApprovalQueueViewProps> = ({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">طابور الموافقات الإدارية</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">طلبات الاعتماد والموافقات</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            مراجعة واعتماد طلبات تجاوز FIFO والحركات الاستثنائية
+            مراجعة واعتماد طلبات صرف الدفعات الاستثنائية والحركات المحاسبية
           </p>
         </div>
       </div>

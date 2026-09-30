@@ -37,9 +37,9 @@ export default async function NewInboundPage() {
           <ArrowRight className="w-4 h-4" />
         </Link>
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">إنشاء سند إدخال صيد جديد</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">إنشاء سند استلام صيد جديد</h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            كل سطر يتم إدخاله سينشئ دفعة مستقلة (Lot) مع لقطة ثابتة من السعر والقواعد وتوزيع المستودعات
+            تسجيل كميات الأسماك الواردة وتثبيت تسعيرة التخزين وتوزيع الأوزان على عنابر التبريد
           </p>
         </div>
       </div>

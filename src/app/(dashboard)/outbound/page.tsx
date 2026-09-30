@@ -22,9 +22,9 @@ export default async function OutboundPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">سندات الصرف (Outbound Receipts)</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">سندات الصرف والتسليم</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            إدارة صرف المخزون المعتمد على قاعدة FIFO الصارمة عبر مستودعات التبريد
+            إدارة أذونات وسندات صرف الأسماك من عنابر التبريد حسب أقدمية التوريد
           </p>
         </div>
 
@@ -33,7 +33,7 @@ export default async function OutboundPage() {
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-semibold shadow-xs transition-all duration-75 active:scale-95 active:translate-y-0.5 select-none cursor-pointer"
         >
           <Plus className="w-4 h-4" />
-          <span>إنشاء سند صرف جديد (FIFO)</span>
+          <span>إنشاء سند صرف جديد</span>
         </Link>
       </div>
 

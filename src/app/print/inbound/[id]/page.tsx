@@ -34,8 +34,8 @@ export default async function PrintInboundReceiptPage({
         receiptNumber={inb.getReceiptNumber().getValue()}
         dateArabic={inb.getEntryDate().formatArabic()}
         dateEnglish={inb.getEntryDate().toString()}
-        documentTitle="سند إدخال صيد (مستودعات التبريد)"
-        documentSubtitle="INBOUND FISH STORAGE RECEIPT"
+        documentTitle="سند استلام وتخزين صيد"
+        documentSubtitle="FISH RECEIPT & STORAGE VOUCHER"
         isCancelled={inb.getStatus() === "CANCELLED"}
         cancellationReason={inb.getCancellationReason()}
         qrValue={qrPayload}
@@ -128,19 +128,19 @@ export default async function PrintInboundReceiptPage({
           {/* Official Signatures & Seal Block */}
           <div className="pt-4 grid grid-cols-3 gap-6 text-center text-xs">
             <div className="space-y-10">
-              <span className="font-bold text-slate-800 block">مندوب الشركة المودعة</span>
+              <span className="font-bold text-slate-800 block">المودع / السائق</span>
               <span className="block border-b border-slate-400 w-3/4 mx-auto" />
               <span className="text-slate-500 block text-[10px]">التوقيع والاسم</span>
             </div>
 
             <div className="space-y-10">
-              <span className="font-bold text-slate-800 block">مسؤول مستودعات التبريد</span>
+              <span className="font-bold text-slate-800 block">أمين المستودع</span>
               <span className="block border-b border-slate-400 w-3/4 mx-auto" />
               <span className="text-slate-500 block text-[10px]">التوقيع والاسم</span>
             </div>
 
             <div className="flex flex-col items-center justify-center">
-              <span className="font-bold text-slate-800 block mb-1">الختم المعتمد</span>
+              <span className="font-bold text-slate-800 block mb-1">ختم المستودع</span>
               <OfficialEmbossedSeal dateStr={inb.getEntryDate().toString()} size={88} />
             </div>
           </div>

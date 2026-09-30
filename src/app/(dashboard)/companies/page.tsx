@@ -25,7 +25,7 @@ export default async function CompaniesPage({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-slate-900">شركات الصيد (العملاء)</h1>
+          <h1 className="text-xl font-extrabold text-slate-900">شركات الصيد والعملاء</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             إدارة بيانات شركات الصيد وحالة الصرف والأرصدة
           </p>
@@ -118,7 +118,7 @@ export default async function CompaniesPage({
                     href={`/companies/${company.getId()}`}
                     className="block w-full py-2 text-center text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors border border-slate-200/60"
                   >
-                    عرض الملف الكامل والتفاصيل ←
+                    كشف الحساب والبيانات ←
                   </Link>
                 </div>
               </Card>

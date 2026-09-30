@@ -47,7 +47,7 @@ export default async function PrintPaymentVoucherPage({
         receiptNumber={payment.getPaymentNumber().getValue()}
         dateArabic={payment.getPaymentDate().formatArabic()}
         dateEnglish={payment.getPaymentDate().toString()}
-        documentTitle="سند قبض مالي (مستودعات التبريد)"
+        documentTitle="سند قبض مالي"
         documentSubtitle="OFFICIAL PAYMENT RECEIPT VOUCHER"
         isCancelled={payment.getStatus() === "CANCELLED"}
         cancellationReason={payment.getCancellationReason()}

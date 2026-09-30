@@ -114,7 +114,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
     setIsCalculating(false);
 
     if (!res.success || !res.data) {
-      setError(res.error || "فشل احتساب خطة FIFO.");
+      setError(res.error || "فشل احتساب توزيع الدفعات.");
       return;
     }
 
@@ -219,7 +219,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
 
   const handleSubmitFifoOverride = async () => {
     if (!overrideReason.trim()) {
-      alert("يرجى كتابة سبب طلب تجاوز FIFO.");
+      alert("يرجى كتابة سبب طلب صرف دفعة أخرى.");
       return;
     }
 
@@ -228,7 +228,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
       ? planData.plan
           .map((p: any) => `${p.lotNumber}: ${p.allocatedWeightKg} كجم`)
           .join(" + ")
-      : "وفق FIFO التلقائي";
+      : "حسب أقدمية الدخول التلقائية";
 
     const res = await requestFifoOverrideAction({
       companyId,
@@ -245,10 +245,10 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
 
     if (res.success) {
       setOverrideSuccessMessage(
-        "تم تقديم طلب تجاوز FIFO بنجاح! سيتم إشعار مدير المستودعات لمراجعته واعتماده."
+        "تم إرسال طلب الاعتماد بنجاح! سيتم إشعار مدير المستودع لمراجعته والموافقة عليه."
       );
     } else {
-      setError(res.error || "فشل تقديم طلب تجاوز FIFO.");
+      setError(res.error || "فشل تقديم طلب الصرف الاستثنائي.");
     }
   };
 
@@ -366,7 +366,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
               className="gap-2"
             >
               <Boxes className="w-4 h-4" />
-              <span>احتساب خطة التوزيع (FIFO)</span>
+              <span>تحديد دفعات الصرف</span>
             </Button>
           </div>
         </div>
@@ -375,18 +375,18 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
       {/* Step 2: FIFO Plan Display & Warehouse Allocation Picker */}
       {planData && (
         <Card
-          title="خطة الصرف التلقائية وفق قاعدة FIFO (الوارد أولاً يصرف أولاً)"
-          subtitle="حدد المستودع الذي سيخرج منه الصيد لكل دفعة. لا يسمح النظام باختيار دفعة أحدث."
+          title="توزيع كميات الصرف تلقائياً حسب أقدمية الدخول (الوارد أولاً يخرج أولاً)"
+          subtitle="حدد عنبر التبريد الذي سيخرج منه الصيد لكل دفعة مسجلة."
           action={
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => setIsOverrideModalOpen(true)}
-              className="gap-1.5 text-amber-700 border-amber-300 hover:bg-amber-50"
+              className="gap-1.5 text-amber-700 border-amber-300 hover:bg-amber-50 cursor-pointer"
             >
               <FileCheck2 className="w-4 h-4" />
-              <span>طلب تجاوز FIFO</span>
+              <span>طلب استثناء (صرف دفعة أخرى)</span>
             </Button>
           }
         >
@@ -493,7 +493,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
 
             <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
               <p className="text-xs text-slate-500">
-                🔒 تتم عملية الصرف ضمن معاملة ذرية متزامنة (Firestore Transaction) لحماية المخزون من التضارب.
+                تأكيد الصرف يخصم الكميات فورياً من رصيد العميل بالمستودع ويصدر إذن التسليم الرسمي.
               </p>
 
               <Button
@@ -513,7 +513,7 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
       <Modal
         isOpen={isOverrideModalOpen}
         onClose={() => setIsOverrideModalOpen(false)}
-        title="تقديم طلب تجاوز قاعدة FIFO"
+        title="طلب استثناء لصرف دفعة أخرى"
         maxWidth="md"
         footer={
           <>
@@ -530,14 +530,14 @@ export const OutboundReceiptWizard: React.FC<OutboundReceiptWizardProps> = ({
               isLoading={isSubmittingOverride}
               onClick={handleSubmitFifoOverride}
             >
-              إرسال طلب التجاوز للإدارة
+              إرسال طلب الاستثناء للمدير
             </Button>
           </>
         }
       >
         <div className="space-y-4">
           <p className="text-xs text-slate-600">
-            تجاوز أقدم دفعة يتطلب اعتماداً صريحاً من مدير المستودعات أو المدير العام مع توضيح السبب التشغيلي.
+            صرف دفعة خلافاً لأقدم دفعة يتطلب موافقة واعتماد مدير المستودع أو الإدارة العامة مع توضيح السبب.
           </p>
 
           <div className="space-y-1.5">

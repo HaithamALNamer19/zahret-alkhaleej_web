@@ -137,8 +137,8 @@ export default function LoginPage() {
             </div>
 
             <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed font-medium pt-2">
-              المنظومة المركزية المتطورة لإدارة مستودعات التبريد والمخزون السمكي،
-              وحساب رسوم التخزين وسندات الإدخال والصرف وفق معايير الجودة الدولية.
+              نظام إدارة مستودعات التبريد وتخزين الأسماك لشركة زهرة المحيط. يتيح متابعة
+              حركة المخزون، وسندات الاستلام والصرف، واحتساب رسوم التخزين وحسابات الشركات.
             </p>
           </div>
 
@@ -150,10 +150,10 @@ export default function LoginPage() {
               </div>
               <div>
                 <strong className="text-xs font-bold block text-white">
-                  سلسلة تبريد وتجميد فائق (1,150 طن)
+                  مستودعات التبريد والتجميد (سعة 1,150 طن)
                 </strong>
                 <span className="text-[11px] text-blue-200">
-                  4 مستودعات رئيسية بدرجات حرارة تصل إلى -35°م لحفظ الأسماك التصديرية.
+                  4 عنابر تبريد وتجميد بدرجات حرارة تصل إلى -35°م لحفظ الصيد المعد للتصدير.
                 </span>
               </div>
             </div>
@@ -164,10 +164,10 @@ export default function LoginPage() {
               </div>
               <div>
                 <strong className="text-xs font-bold block text-white">
-                  نظام السحب والتخصيص الذكي (FIFO)
+                  الصرف بأقدمية الدخول (الوارد أولاً يخرج أولاً)
                 </strong>
                 <span className="text-[11px] text-blue-200">
-                  صرف آلي حسب أقدمية الدفعات مع توثيق الأوزان الصافية بالغرام.
+                  تنظيم سحب البضاعة حسب تاريخ توريدها لضمان جودة الأسماك ودقة مدد التخزين.
                 </span>
               </div>
             </div>
@@ -178,10 +178,10 @@ export default function LoginPage() {
               </div>
               <div>
                 <strong className="text-xs font-bold block text-white">
-                  سندات رسمية موثقة برمز التحقق (QR)
+                  سندات وفواتير رسمية معتمدة
                 </strong>
                 <span className="text-[11px] text-blue-200">
-                  ترويسة أصلية A4 متوافقة مع متطلبات وزارة الثروة السمكية والتصدير.
+                  طباعة مباشرة لسندات التوريد والصرف وسندات القبض المالي بترويسة الشركة الرسمية.
                 </span>
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function LoginPage() {
           <div className="relative z-10 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between text-[11px] text-blue-200 gap-2 font-medium">
             <div className="flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-[#f87171]" />
-              <span>المكلا - حضرموت - اليمن</span>
+              <span>المكلا - حضرموت - الجمهورية اليمنية</span>
             </div>
             <div className="flex items-center gap-1.5 font-mono">
               <PhoneCall className="w-3.5 h-3.5 text-blue-300" />
@@ -201,19 +201,19 @@ export default function LoginPage() {
         </div>
 
         {/* ========================================================== */}
-        {/* COLUMN 2: SECURE ACCESS TERMINAL (5 COLS)                   */}
+        {/* COLUMN 2: LOGIN TERMINAL (5 COLS)                           */}
         {/* ========================================================== */}
         <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between text-right bg-white">
           <div>
             <div className="mb-6 space-y-1">
-              <span className="text-[11px] font-black uppercase tracking-wider text-[#0e3a82]">
-                البوابة الأمنية المعتمدة
+              <span className="text-[11px] font-bold text-[#0e3a82] block">
+                مستودعات التبريد المركزية
               </span>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                تسجيل الدخول للنظام
+                تسجيل الدخول
               </h2>
-              <p className="text-xs text-slate-500 font-semibold">
-                أدخل اسم المستخدم المعتمد وكلمة المرور للوصول
+              <p className="text-xs text-slate-500 font-medium">
+                أدخل اسم المستخدم وكلمة المرور الخاصة بك للوصول للنظام
               </p>
             </div>
 
@@ -253,10 +253,10 @@ export default function LoginPage() {
 
               <Button
                 type="submit"
-                className="w-full py-3 mt-3 bg-gradient-to-r from-[#0e3a82] to-[#124ca6] hover:from-[#0b2e6b] hover:to-[#0e3a82] text-white font-bold text-sm shadow-md"
+                className="w-full py-3 mt-3 bg-gradient-to-r from-[#0e3a82] to-[#124ca6] hover:from-[#0b2e6b] hover:to-[#0e3a82] text-white font-bold text-sm shadow-md cursor-pointer"
                 isLoading={isLoading}
               >
-                تسجيل الدخول الآمن
+                تسجيل الدخول
               </Button>
             </form>
 
@@ -271,14 +271,14 @@ export default function LoginPage() {
                   onClick={() => handleQuickFill("manager", "Manager@123456")}
                   className="p-2 rounded-lg bg-blue-50/80 hover:bg-blue-100 text-[#0e3a82] border border-blue-200 font-bold transition-all text-center cursor-pointer active:scale-95"
                 >
-                  مدير مستودعات
+                  مدير المستودع
                 </button>
                 <button
                   type="button"
                   onClick={() => handleQuickFill("employee", "Employee@123456")}
                   className="p-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold transition-all text-center cursor-pointer active:scale-95"
                 >
-                  موظف تشغيل
+                  موظف مخزن
                 </button>
               </div>
             </div>
@@ -286,10 +286,7 @@ export default function LoginPage() {
 
           <div className="pt-6 border-t border-slate-100 text-center">
             <span className="text-[11px] text-slate-400 font-medium block">
-              نظام إدارة مستودعات زهرة المحيط © 2026
-            </span>
-            <span className="text-[10px] text-slate-300 font-mono block mt-0.5">
-              Secure Maritime Logistics Platform
+              شركة زهرة المحيط لتصدير الأسماك © 2026 — المكلا، حضرموت
             </span>
           </div>
         </div>

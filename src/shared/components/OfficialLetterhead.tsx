@@ -49,9 +49,9 @@ export const OfficialLetterhead: React.FC<OfficialLetterheadProps> = ({
             <SlidersHorizontal className="w-4 h-4" />
           </div>
           <div>
-            <span className="text-xs font-bold text-slate-800 block">خيارات ونمط الطباعة الرسمية:</span>
+            <span className="text-xs font-bold text-slate-800 block">نمط الطباعة:</span>
             <span className="text-[11px] text-slate-500 font-medium">
-              اختر مظهر السند قبل إرساله للطابعة
+              اختر نوع الورق قبل الطباعة
             </span>
           </div>
         </div>
@@ -61,39 +61,39 @@ export const OfficialLetterhead: React.FC<OfficialLetterheadProps> = ({
           <button
             type="button"
             onClick={() => setMode("authentic")}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
               mode === "authentic"
                 ? "bg-white text-[#0e3a82] shadow-xs font-black border border-slate-200/80"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
             <FileText className="w-3.5 h-3.5 text-[#dc2626]" />
-            <span>الترويسة الأصلية للشركة</span>
+            <span>طباعة كاملة مع الترويسة</span>
           </button>
 
           <button
             type="button"
             onClick={() => setMode("vector")}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
               mode === "vector"
                 ? "bg-white text-[#0e3a82] shadow-xs font-black border border-slate-200/80"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
             <CheckCircle2 className="w-3.5 h-3.5 text-[#0e3a82]" />
-            <span>تصميم فكتور رقمي حديث</span>
+            <span>ترويسة رقمية واضحة</span>
           </button>
 
           <button
             type="button"
             onClick={() => setMode("preprinted")}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
               mode === "preprinted"
                 ? "bg-white text-[#0e3a82] shadow-xs font-black border border-slate-200/80"
                 : "text-slate-600 hover:text-slate-900"
             }`}
           >
-            <span>ورق مطبوع مسبقاً (محتوى فقط)</span>
+            <span>ورق مروّس جاهز (محتوى فقط)</span>
           </button>
         </div>
 
@@ -104,7 +104,7 @@ export const OfficialLetterhead: React.FC<OfficialLetterheadProps> = ({
           className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#0e3a82] to-[#124ca6] hover:from-[#0b2e6b] hover:to-[#0e3a82] text-white font-bold text-xs shadow-md transition-all active:scale-95 active:shadow-inner flex items-center gap-2 cursor-pointer"
         >
           <Printer className="w-4 h-4" />
-          <span>طباعة الوثيقة الآن (A4)</span>
+          <span>طباعة السند</span>
         </button>
       </div>
 

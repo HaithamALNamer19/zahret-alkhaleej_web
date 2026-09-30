@@ -19,7 +19,7 @@ export default async function SettingsPage() {
       <div className="p-4 bg-sky-50 border border-sky-200 rounded-xl text-sky-800 text-xs flex items-center gap-2">
         <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0" />
         <span>
-          <strong>ملاحظة معمارية:</strong> الدفعات السابقة (Lots) تحتفظ بنسخة ثابتة (Snapshot) من قواعد التخزين عند إنشائها، وأي تعديل هنا يسري حصراً على الدفعات الجديدة مستقبلاً.
+          <strong>تنبيه إداري:</strong> تعديل فترات السماح أو مضاعفة الرسوم يطبّق تلقائياً على سندات الاستلام الجديدة فقط، وتستمر الدفعات المخزنة مسبقاً بنفس الشروط والأسعار التي دخلت بها لحفظ حقوق العملاء.
         </span>
       </div>
 
