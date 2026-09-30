@@ -6,10 +6,12 @@ export class CompanyCode {
   private readonly value: string;
 
   private constructor(value: string) {
-    if (!/^COM-\d{6}$/.test(value)) {
+    const trimmed = value.trim();
+    const match = /^COM-(\d{1,6})$/.exec(trimmed);
+    if (!match) {
       throw new Error(`كود شركة غير صالح: ${value}. يجب أن يكون بالصيغة: COM-000001`);
     }
-    this.value = value;
+    this.value = `COM-${match[1].padStart(6, "0")}`;
   }
 
   public static create(sequenceNumber: number): CompanyCode {

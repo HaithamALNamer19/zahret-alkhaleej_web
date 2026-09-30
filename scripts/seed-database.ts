@@ -153,7 +153,7 @@ async function seedDatabase() {
   const companiesData = [
     {
       id: "comp-aden",
-      code: "COM-0001",
+      code: "COM-000001",
       name: "شركة خليج عدن للصيد البحري",
       contactPerson: "أحمد باحبيش",
       phone: "+967771234567",
@@ -163,7 +163,7 @@ async function seedDatabase() {
     },
     {
       id: "comp-shorooq",
-      code: "COM-0002",
+      code: "COM-000002",
       name: "مؤسسة الشروق للخدمات السمكية",
       contactPerson: "سالم الميسري",
       phone: "+967733456789",
@@ -173,7 +173,7 @@ async function seedDatabase() {
     },
     {
       id: "comp-bahr",
-      code: "COM-0003",
+      code: "COM-000003",
       name: "شركة البحر العربي للتصدير",
       contactPerson: "طارق الصبيحي",
       phone: "+967711987654",
@@ -183,7 +183,7 @@ async function seedDatabase() {
     },
     {
       id: "comp-nawras",
-      code: "COM-0004",
+      code: "COM-000004",
       name: "شركة النورس للصيد المحدودة",
       contactPerson: "فؤاد العمودي",
       phone: "+967770112233",
