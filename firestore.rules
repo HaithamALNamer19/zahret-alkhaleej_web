@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default Deny All direct client writes
+    // All sensitive inventory, billing, user, counter, and audit operations
+    // must strictly occur through Firebase Admin SDK in Server-Side Use Cases.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Authenticated users can read their own user profile
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    // Master data: Authenticated users can read active warehouses and fish catalog
+    match /warehouses/{warehouseId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    match /fishItems/{itemId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    match /fishSizes/{sizeId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    match /companies/{companyId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    match /settings/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Sensitive collections: Strict Server-Only (Clients cannot read or write directly)
+    match /lots/{lotId} {
+      allow read, write: if false;
+    }
+
+    match /stockLocations/{locationId} {
+      allow read, write: if false;
+    }
+
+    match /inboundReceipts/{receiptId} {
+      allow read, write: if false;
+    }
+
+    match /outboundReceipts/{receiptId} {
+      allow read, write: if false;
+    }
+
+    match /outboundAllocations/{allocationId} {
+      allow read, write: if false;
+    }
+
+    match /payments/{paymentId} {
+      allow read, write: if false;
+    }
+
+    match /discounts/{discountId} {
+      allow read, write: if false;
+    }
+
+    match /approvals/{approvalId} {
+      allow read, write: if false;
+    }
+
+    match /auditLogs/{auditId} {
+      allow read, write: if false;
+    }
+
+    match /counters/{counterId} {
+      allow read, write: if false;
+    }
+
+    match /inventoryLocks/{lockId} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+export type Permission =
+  // Inbound & Outbound
+  | "INBOUND_CREATE"
+  | "INBOUND_VIEW"
+  | "INBOUND_PRINT"
+  | "INBOUND_CANCEL"
+  | "OUTBOUND_CREATE"
+  | "OUTBOUND_VIEW"
+  | "OUTBOUND_PRINT"
+  | "OUTBOUND_CANCEL"
+
+  // Inventory & Catalog
+  | "INVENTORY_VIEW"
+  | "INVENTORY_MANAGE"
+  | "CATALOG_VIEW"
+  | "CATALOG_MANAGE"
+  | "PRICE_VIEW"
+  | "PRICE_MANAGE"
+
+  // Companies & Warehouses
+  | "COMPANIES_VIEW_BASIC"
+  | "COMPANIES_VIEW_FINANCIAL"
+  | "COMPANIES_MANAGE"
+  | "WAREHOUSES_VIEW"
+  | "WAREHOUSES_MANAGE"
+
+  // Financial operations
+  | "PAYMENTS_VIEW"
+  | "PAYMENTS_CREATE"
+  | "PAYMENTS_CANCEL"
+  | "DISCOUNTS_VIEW"
+  | "DISCOUNTS_CREATE"
+  | "STATEMENTS_VIEW"
+
+  // Approvals & Workflow
+  | "FIFO_OVERRIDE_REQUEST"
+  | "FIFO_OVERRIDE_APPROVE"
+  | "BACKDATED_REQUEST"
+  | "BACKDATED_APPROVE"
+
+  // Users & Administration
+  | "USERS_VIEW"
+  | "USERS_MANAGE"
+  | "USERS_RESET_PASSWORD"
+  | "SETTINGS_MANAGE"
+  | "AUDIT_VIEW_ALL"
+  | "AUDIT_VIEW_OPERATIONAL"
+  | "REPORTS_VIEW";
