@@ -5,9 +5,11 @@ import { FinanceManagerView } from "./FinanceManagerView";
 export default async function FinancePage() {
   const user = await requireAuth(["WAREHOUSE_MANAGER", "GENERAL_MANAGER"]);
 
-  const companies = await container.companyRepository.findAll();
-  const payments = await container.paymentRepository.findAll();
-  const discounts = await container.discountRepository.findAll();
+  const [companies, payments, discounts] = await Promise.all([
+    container.companyRepository.findAll(),
+    container.paymentRepository.findAll(),
+    container.discountRepository.findAll(),
+  ]);
 
   const companyMap = new Map<string, string>();
   for (const c of companies) {

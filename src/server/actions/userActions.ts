@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAuth } from "@/server/auth/session";
+import { requireAuth, invalidateUserSessionCache } from "@/server/auth/session";
 import { container } from "@/server/container";
 import { revalidatePath } from "next/cache";
 import { UserRole } from "@/core/application/authorization/Role";
@@ -52,6 +52,7 @@ export async function disableUserAction(targetUserId: string) {
       return { success: false, error: res.getError().message };
     }
 
+    invalidateUserSessionCache(targetUserId);
     revalidatePath("/users");
     return { success: true };
   } catch (err: unknown) {

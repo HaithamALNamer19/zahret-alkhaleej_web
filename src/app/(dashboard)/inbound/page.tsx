@@ -8,8 +8,10 @@ import { Plus, Printer, FileInput } from "lucide-react";
 export default async function InboundPage() {
   await requireAuth();
 
-  const inbounds = await container.inboundRepository.findAll();
-  const companies = await container.companyRepository.findAll();
+  const [inbounds, companies] = await Promise.all([
+    container.inboundRepository.findAll(),
+    container.companyRepository.findAll(),
+  ]);
 
   const companyMap = new Map<string, string>();
   for (const c of companies) {

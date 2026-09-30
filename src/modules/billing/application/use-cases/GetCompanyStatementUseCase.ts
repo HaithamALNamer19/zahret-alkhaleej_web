@@ -41,19 +41,22 @@ export class GetCompanyStatementUseCase {
         ? BusinessDate.fromString(input.asOfDate)
         : BusinessDate.today();
 
-      // 1. Fetch all lots for this company
-      const lots = await this.lotRepository.findByCompanyId(input.companyId);
+      // 1. Fetch lots, payments, and discounts concurrently
+      const [lots, payments, discounts] = await Promise.all([
+        this.lotRepository.findByCompanyId(input.companyId),
+        this.paymentRepository.findByCompanyId(input.companyId),
+        this.discountRepository.findByCompanyId(input.companyId),
+      ]);
 
-      // 2. Fetch all allocations for each lot
+      // 2. Fetch all allocations for each lot concurrently
+      const allocsList = await Promise.all(
+        lots.map((lot) => this.outboundRepository.findAllocationsByLotId(lot.getId()))
+      );
+
       const allocationsByLotId = new Map<string, OutboundAllocation[]>();
-      for (const lot of lots) {
-        const allocs = await this.outboundRepository.findAllocationsByLotId(lot.getId());
-        allocationsByLotId.set(lot.getId(), allocs);
-      }
-
-      // 3. Fetch all payments and discounts
-      const payments = await this.paymentRepository.findByCompanyId(input.companyId);
-      const discounts = await this.discountRepository.findByCompanyId(input.companyId);
+      lots.forEach((lot, idx) => {
+        allocationsByLotId.set(lot.getId(), allocsList[idx]);
+      });
 
       // 4. Generate financial statement
       const statement = CompanyStatementService.generateStatement({

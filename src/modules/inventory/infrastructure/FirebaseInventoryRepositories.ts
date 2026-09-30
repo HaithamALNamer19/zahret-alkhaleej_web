@@ -275,6 +275,11 @@ export class FirebaseStockLocationRepository implements StockLocationRepository 
     return snap.docs.map((doc) => this.mapDocToLocation(doc.id, doc.data()));
   }
 
+  public async findAll(): Promise<StockLocation[]> {
+    const snap = await this.collection.get();
+    return snap.docs.map((doc) => this.mapDocToLocation(doc.id, doc.data()));
+  }
+
   public async save(location: StockLocation, transaction?: FirebaseFirestore.Transaction): Promise<void> {
     const docRef = this.collection.doc(location.getId());
     const data = {
@@ -339,6 +344,12 @@ export class FirebaseOutboundReceiptRepository implements OutboundReceiptReposit
     const snap = await this.allocationsCol
       .where("lotId", "==", lotId)
       .get();
+    const allocations = snap.docs.map((doc) => this.mapDocToAllocation(doc.id, doc.data()));
+    return allocations.sort((a, b) => (a.getWithdrawalDate().isBefore(b.getWithdrawalDate()) ? -1 : 1));
+  }
+
+  public async findAllAllocations(): Promise<OutboundAllocation[]> {
+    const snap = await this.allocationsCol.get();
     const allocations = snap.docs.map((doc) => this.mapDocToAllocation(doc.id, doc.data()));
     return allocations.sort((a, b) => (a.getWithdrawalDate().isBefore(b.getWithdrawalDate()) ? -1 : 1));
   }

@@ -16,35 +16,27 @@ export default async function CompanyDetailsPage({
     notFound();
   }
 
-  // Fetch company inventory lots
-  const lots = await container.lotRepository.findByCompanyId(id);
-
-  // Fetch inbounds & outbounds for movements tab
-  const inbounds = await container.inboundRepository.findAll(id);
-  const outbounds = await container.outboundRepository.findAll(id);
-
-  // Financial data (restricted to Managers)
   const isManager = user.role === "WAREHOUSE_MANAGER" || user.role === "GENERAL_MANAGER";
-  let statementSummary: any = null;
-  let payments: any[] = [];
-  let discounts: any[] = [];
 
-  if (isManager) {
-    const res = await container.getCompanyStatementUseCase.execute({
-      companyId: id,
-      actor: {
-        userId: user.id,
-        name: user.displayName,
-        role: user.role,
-      },
-    });
-    if (res.isSuccess()) {
-      statementSummary = res.getValue();
-    }
+  const [lots, inbounds, outbounds, statementRes, payments, discounts] = await Promise.all([
+    container.lotRepository.findByCompanyId(id),
+    container.inboundRepository.findAll(id),
+    container.outboundRepository.findAll(id),
+    isManager
+      ? container.getCompanyStatementUseCase.execute({
+          companyId: id,
+          actor: {
+            userId: user.id,
+            name: user.displayName,
+            role: user.role,
+          },
+        })
+      : Promise.resolve(null),
+    isManager ? container.paymentRepository.findByCompanyId(id) : Promise.resolve([]),
+    isManager ? container.discountRepository.findByCompanyId(id) : Promise.resolve([]),
+  ]);
 
-    payments = await container.paymentRepository.findByCompanyId(id);
-    discounts = await container.discountRepository.findByCompanyId(id);
-  }
+  const statementSummary = statementRes && statementRes.isSuccess() ? statementRes.getValue() : null;
 
   return (
     <CompanyDetailsView

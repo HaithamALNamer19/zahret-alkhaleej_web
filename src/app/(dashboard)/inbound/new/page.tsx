@@ -7,20 +7,25 @@ import { ArrowRight } from "lucide-react";
 export default async function NewInboundPage() {
   await requireAuth();
 
-  const companies = await container.companyRepository.findAll({ status: "ACTIVE" });
-  const warehouses = await container.warehouseRepository.findAll();
-  const fishItems = await container.catalogRepository.findAllFishItems();
+  const [companies, warehouses, fishItems] = await Promise.all([
+    container.companyRepository.findAll({ status: "ACTIVE" }),
+    container.warehouseRepository.findAll(),
+    container.catalogRepository.findAllFishItems(),
+  ]);
 
-  // Load sizes for each fish item
+  // Load sizes for each fish item concurrently
+  const sizesResults = await Promise.all(
+    fishItems.map((item) => container.catalogRepository.findSizesByFishItemId(item.getId()))
+  );
+
   const sizesByFishId: Record<string, { id: string; label: string; overrideYer: number | null }[]> = {};
-  for (const item of fishItems) {
-    const sizes = await container.catalogRepository.findSizesByFishItemId(item.getId());
-    sizesByFishId[item.getId()] = sizes.map((s) => ({
+  fishItems.forEach((item, idx) => {
+    sizesByFishId[item.getId()] = sizesResults[idx].map((s) => ({
       id: s.getId(),
       label: s.getLabel(),
       overrideYer: s.getDailyRateOverride() ? s.getDailyRateOverride()!.toYer() : null,
     }));
-  }
+  });
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

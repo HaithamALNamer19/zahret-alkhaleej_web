@@ -19,13 +19,34 @@ export default async function InventoryPage({
   const params = await searchParams;
   const query = params.q || "";
 
-  const openLots = await container.lotRepository.findAllOpenLots();
-  const companies = await container.companyRepository.findAll();
+  const [openLots, companies, allStockLocations, allAllocations] = await Promise.all([
+    container.lotRepository.findAllOpenLots(),
+    container.companyRepository.findAll(),
+    container.stockLocationRepository.findAll(),
+    container.outboundRepository.findAllAllocations(),
+  ]);
+
   const today = BusinessDate.today();
 
   const companyMap = new Map<string, string>();
   for (const c of companies) {
     companyMap.set(c.getId(), c.getName());
+  }
+
+  // Group locations by lotId
+  const locationsByLotId = new Map<string, import("@/modules/inventory/domain/StockLocation").StockLocation[]>();
+  for (const loc of allStockLocations) {
+    const list = locationsByLotId.get(loc.getLotId()) || [];
+    list.push(loc);
+    locationsByLotId.set(loc.getLotId(), list);
+  }
+
+  // Group allocations by lotId
+  const allocationsByLotId = new Map<string, import("@/modules/inventory/domain/OutboundAllocation").OutboundAllocation[]>();
+  for (const alloc of allAllocations) {
+    const list = allocationsByLotId.get(alloc.getLotId()) || [];
+    list.push(alloc);
+    allocationsByLotId.set(alloc.getLotId(), list);
   }
 
   // Calculate detailed inventory rows with age, stage, and multiplier
@@ -36,7 +57,7 @@ export default async function InventoryPage({
     const remainingFree = Math.max(0, freeDays - ageDay);
 
     // Calculate accrued fees and multiplier
-    const allocs = await container.outboundRepository.findAllocationsByLotId(lot.getId());
+    const allocs = allocationsByLotId.get(lot.getId()) || [];
     const withdrawals = allocs.map((a) => ({
       withdrawalDate: a.getWithdrawalDate(),
       withdrawnWeight: a.getWeight(),
@@ -55,8 +76,8 @@ export default async function InventoryPage({
 
     const withdrawnKg = lot.getOriginalWeight().subtract(lot.getRemainingWeight()).toKilograms();
 
-    // Fetch warehouse locations
-    const locs = await container.stockLocationRepository.findByLotId(lot.getId());
+    // Warehouse locations
+    const locs = locationsByLotId.get(lot.getId()) || [];
     const locSummary = locs
       .filter((l) => l.getRemainingWeight().isPositive())
       .map((l) => `${l.getWarehouseId()} (${l.getRemainingWeight().toKilograms().toLocaleString("ar-YE")} كجم)`)

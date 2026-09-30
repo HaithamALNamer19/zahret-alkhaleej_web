@@ -22,23 +22,61 @@ export default async function DashboardPage() {
   const user = await requireAuth();
   const isManager = user.role === "WAREHOUSE_MANAGER" || user.role === "GENERAL_MANAGER";
 
-  // 1. Fetch live open lots
-  const openLots = await container.lotRepository.findAllOpenLots();
-  const companies = await container.companyRepository.findAll();
-  const warehouses = await container.warehouseRepository.findAll();
-  const settings = await container.settingsRepository.getSettings();
-
   const today = BusinessDate.today();
+
+  // 1. Fetch all required entities concurrently in ONE parallel batch
+  const [
+    openLots,
+    companies,
+    warehouses,
+    settings,
+    allLocations,
+    recentInbounds,
+    recentOutbounds,
+    allPayments,
+    allDiscounts,
+    allAllocations,
+  ] = await Promise.all([
+    container.lotRepository.findAllOpenLots(),
+    container.companyRepository.findAll(),
+    container.warehouseRepository.findAll(),
+    container.settingsRepository.getSettings(),
+    container.stockLocationRepository.findAll(),
+    container.inboundRepository.findAll(),
+    container.outboundRepository.findAll(),
+    isManager ? container.paymentRepository.findAll() : Promise.resolve([]),
+    isManager ? container.discountRepository.findAll() : Promise.resolve([]),
+    isManager ? container.outboundRepository.findAllAllocations() : Promise.resolve([]),
+  ]);
+
   const warningDays = settings.getFreePeriodWarningDays();
 
-  // 2. Compute Total Inventory & Stock per Warehouse
-  let totalGrams = 0;
-  const lotsNearFreeEnd: any[] = [];
+  // Map locations by warehouse
   const warehouseBalances = new Map<string, number>();
-
   for (const w of warehouses) {
     warehouseBalances.set(w.getId(), 0);
   }
+
+  for (const loc of allLocations) {
+    const current = warehouseBalances.get(loc.getWarehouseId()) || 0;
+    warehouseBalances.set(loc.getWarehouseId(), current + loc.getRemainingWeight().getGrams());
+  }
+
+  // Map allocations by lotId for in-memory fee calculation
+  const allocationsByLotId = new Map<string, import("@/modules/inventory/domain/OutboundAllocation").OutboundAllocation[]>();
+  for (const alloc of allAllocations) {
+    const list = allocationsByLotId.get(alloc.getLotId()) || [];
+    list.push(alloc);
+    allocationsByLotId.set(alloc.getLotId(), list);
+  }
+
+  const companyMap = new Map<string, string>();
+  for (const c of companies) {
+    companyMap.set(c.getId(), c.getName());
+  }
+
+  let totalGrams = 0;
+  const lotsNearFreeEnd: any[] = [];
 
   for (const lot of openLots) {
     totalGrams += lot.getRemainingWeight().getGrams();
@@ -49,55 +87,40 @@ export default async function DashboardPage() {
     const remainingFree = Math.max(0, freeDays - ageDay);
 
     if (remainingFree > 0 && remainingFree <= warningDays) {
-      const comp = companies.find((c) => c.getId() === lot.getCompanyId());
       lotsNearFreeEnd.push({
         lotId: lot.getId(),
         lotNumber: lot.getLotNumber().getValue(),
-        companyName: comp?.getName() || "شركة غير محددة",
+        companyName: companyMap.get(lot.getCompanyId()) || "شركة غير محددة",
         fishName: lot.getFishNameSnapshot(),
         fishSize: lot.getFishSizeSnapshot(),
         remainingKg: lot.getRemainingWeight().toKilograms(),
         daysLeft: remainingFree,
       });
     }
-
-    // Get locations for this lot
-    const locs = await container.stockLocationRepository.findByLotId(lot.getId());
-    for (const loc of locs) {
-      const current = warehouseBalances.get(loc.getWarehouseId()) || 0;
-      warehouseBalances.set(loc.getWarehouseId(), current + loc.getRemainingWeight().getGrams());
-    }
   }
 
   const totalWeight = Weight.fromGrams(totalGrams);
 
-  // 3. Fetch Recent Receipts
-  const recentInbounds = await container.inboundRepository.findAll();
-  const recentOutbounds = await container.outboundRepository.findAll();
-
-  // 4. If Manager: Compute Financial KPIs
+  // 4. If Manager: Compute Financial KPIs in-memory
   let totalAccruedFees = Money.zero();
   let totalPaymentsReceived = Money.zero();
   let totalDiscountsGiven = Money.zero();
 
   if (isManager) {
-    const allPayments = await container.paymentRepository.findAll();
     for (const p of allPayments) {
       if (p.getStatus() !== "CANCELLED") {
         totalPaymentsReceived = totalPaymentsReceived.add(p.getAmount());
       }
     }
 
-    const allDiscounts = await container.discountRepository.findAll();
     for (const d of allDiscounts) {
       if (d.getStatus() !== "CANCELLED") {
         totalDiscountsGiven = totalDiscountsGiven.add(d.getAmount());
       }
     }
 
-    // Compute accrued fees for all open lots up to today
     for (const lot of openLots) {
-      const allocs = await container.outboundRepository.findAllocationsByLotId(lot.getId());
+      const allocs = allocationsByLotId.get(lot.getId()) || [];
       const withdrawals = allocs.map((a) => ({
         withdrawalDate: a.getWithdrawalDate(),
         withdrawnWeight: a.getWeight(),

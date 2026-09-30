@@ -7,17 +7,22 @@ import { ArrowRight } from "lucide-react";
 export default async function NewOutboundPage() {
   await requireAuth();
 
-  const companies = await container.companyRepository.findAll({ status: "ACTIVE" });
-  const fishItems = await container.catalogRepository.findAllFishItems();
+  const [companies, fishItems] = await Promise.all([
+    container.companyRepository.findAll({ status: "ACTIVE" }),
+    container.catalogRepository.findAllFishItems(),
+  ]);
+
+  const sizesResults = await Promise.all(
+    fishItems.map((item) => container.catalogRepository.findSizesByFishItemId(item.getId()))
+  );
 
   const sizesByFishId: Record<string, { id: string; label: string }[]> = {};
-  for (const item of fishItems) {
-    const sizes = await container.catalogRepository.findSizesByFishItemId(item.getId());
-    sizesByFishId[item.getId()] = sizes.map((s) => ({
+  fishItems.forEach((item, idx) => {
+    sizesByFishId[item.getId()] = sizesResults[idx].map((s) => ({
       id: s.getId(),
       label: s.getLabel(),
     }));
-  }
+  });
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

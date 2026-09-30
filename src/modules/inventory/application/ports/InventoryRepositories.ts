@@ -24,6 +24,7 @@ export interface LotRepository {
 export interface StockLocationRepository {
   findByLotId(lotId: string): Promise<StockLocation[]>;
   findByWarehouseId(warehouseId: string): Promise<StockLocation[]>;
+  findAll(): Promise<StockLocation[]>;
   save(location: StockLocation, transaction?: FirebaseFirestore.Transaction): Promise<void>;
 }
 
@@ -33,4 +34,5 @@ export interface OutboundReceiptRepository {
   findAll(companyId?: string): Promise<OutboundReceipt[]>;
   findAllocationsByReceiptId(receiptId: string): Promise<OutboundAllocation[]>;
   findAllocationsByLotId(lotId: string): Promise<OutboundAllocation[]>;
+  findAllAllocations(): Promise<OutboundAllocation[]>;
 }

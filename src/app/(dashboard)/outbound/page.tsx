@@ -8,8 +8,10 @@ import { Plus, Printer, FileOutput } from "lucide-react";
 export default async function OutboundPage() {
   const user = await requireAuth();
 
-  const outbounds = await container.outboundRepository.findAll();
-  const companies = await container.companyRepository.findAll();
+  const [outbounds, companies] = await Promise.all([
+    container.outboundRepository.findAll(),
+    container.companyRepository.findAll(),
+  ]);
 
   const companyMap = new Map<string, string>();
   for (const c of companies) {
